@@ -1,53 +1,16 @@
-package Siebel::COM;
+package Siebel::COM::Business;
 
 use 5.010;
 use strict;
 use warnings;
-use Moose::Role;
-use Win32::OLE::Variant;
-use Carp;
+use Win32::OLE;
+use Moose;
+use MooseX::FollowPBP;
+use Sub::Talisman qw(SiebelAPICheck);
 
-use constant VERSION => 0.1;
+with 'Siebel::COM';
 
-has '_ole' => ( is => 'ro', isa => 'Win32::OLE', reader => 'get_ole', writer => '_set_ole' );
-
-has 'return_code' => (
-    is      => 'ro',
-    isa     => 'Win32::OLE::Variant',
-    builder => '_build_variant',
-    reader  => 'get_return_code',
-    trigger => \&_set_rc
-);
-
-sub _set_rc {
-
-    my ( $self, $rc, $old_rc ) = shift;
-
-    unless ( $rc == 0 ) {
-
-        confess 'method invocation returned an error';
-
-    }
-
-}
-
-sub _build_variant {
-
-    return Variant( VT_I2 | VT_BYREF, 0 );
-
-}
-
-sub check_error {
-
-    my $self = shift;
-
-    unless ( $self->get_return_code() == 0 ) {
-
-        die '[tag]';
-
-    }
-
-}
+__PACKAGE__->meta->make_immutable;
 
 1;
 __END__

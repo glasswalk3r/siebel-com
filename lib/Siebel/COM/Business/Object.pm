@@ -1,64 +1,27 @@
-package Siebel::COM::App::Business::Component;
+package Siebel::COM::Business::Object;
 
 use 5.010;
 use strict;
 use warnings;
 use Moose;
+use Siebel::COM::Business::Component;
+use Sub::Talisman qw(SiebelAPICheck);
 
 extends 'Siebel::COM::Business';
 
-sub activate_field {
+sub get_bus_comp : SiebelAPICheck {
 
-    my $self       = shift;
-    my $field_name = shift;
+    my $self      = shift;
+    my $comp_name = shift;
 
-    $self->get_ole()->ActivateField( $field_name, $self->get_return_code() );
-
-}
-
-sub clear_query {
-
-    my $self = shift;
-
-    $self->get_ole()->ClearToQuery( $self->get_return_code() );
+    return Siebel::COM::Business::Component->new(
+        {
+            '_ole' => $self->get_ole()
+              ->GetBusComp( $comp_name, $self->get_return_code() )
+        }
+    );
 
 }
-
-sub set_search_expr {
-
-    my $self        = shift;
-    my $search_expr = shift;
-
-    $self->get_ole()->SetSearchExpr( $search_expr, $self->get_return_code() );
-
-}
-
-sub query {
-
-    my $self        = shift;
-    my $cursor_type = shift;
-
-    $self->get_ole()->ExecuteQuery( $cursor_type, $self->get_return_code() );
-
-}
-
-sub first_record {
-
-    my $self = shift;
-
-    return $self->get_ole()->FirstRecord( $self->get_return_code() );
-
-}
-
-sub next_record {
-
-    my $self = shift;
-
-    return $self->get_ole()->NextRecord( $self->get_return_code() );
-
-}
-
-__PACKAGE__->meta->make_immutable;
 
 1;
 __END__

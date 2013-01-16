@@ -1,37 +1,46 @@
-package Siebel::COM::App::DataServer;
+package Siebel::COM;
 
 use 5.010;
 use strict;
 use warnings;
-use Moose;
-use namespace::autoclean;
+use feature 'say';
+use Win32::OLE::Variant;
+use MooseX::RoleQR;
+use MooseX::ModifyTaggedMethods;
 
-extends 'Siebel::COM::App';
+our $VERSION = 0.1;
 
-has cfg         => ( is => 'rw', isa => 'Str' );
-has data_source => ( is => 'rw', isa => 'Str' );
-has ole_class =>
-  ( is => 'ro', isa => 'Str', default => 'SiebelDataServer.ApplicationObject' );
+has '_ole' => (
+    is       => 'ro',
+    isa      => 'Win32::OLE',
+    reader   => 'get_ole',
+    writer   => '_set_ole'
+);
 
-sub app_def {
+has 'return_code' => (
+    is      => 'ro',
+    isa     => 'Win32::OLE::Variant',
+    builder => '_build_variant',
+    reader  => 'get_return_code'
+);
+
+after methods_tagged('SiebelAPICheck') => sub {
 
     my $self = shift;
 
-    return $self->get_cfg() . ',' . $self->get_data_source();
+    die 'the method returned an exception'
+      unless ( $self->get_return_code() == 0 );
+
+};
+
+sub _build_variant {
+
+    return Variant( VT_I2 | VT_BYREF, 0 );
 
 }
 
-sub BUILD {
-
-    my $self = shift;
-
-    $self->get_ole()
-      ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
-
-}
-
-__PACKAGE__->meta->make_immutable;
 1;
+
 __END__
 # Below is stub documentation for your module. You'd better edit it!
 

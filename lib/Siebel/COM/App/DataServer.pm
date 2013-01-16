@@ -1,71 +1,27 @@
-package Siebel::COM::App;
+package Siebel::COM::App::DataServer;
 
 use 5.010;
 use strict;
 use warnings;
-use Win32::OLE;
 use Moose;
-use MooseX::FollowPBP;
 use namespace::autoclean;
 
-with 'Siebel::COM';
+extends 'Siebel::COM::App';
 
-has 'user'      => ( is => 'ro', isa => 'Str' );
-has 'password'  => ( is => 'ro', isa => 'Str' );
-has 'ole_class' => ( is => 'ro', isa => 'Str' );
+has cfg         => ( is => 'rw', isa => 'Str', required => 1 );
+has data_source => ( is => 'rw', isa => 'Str', required => 1 );
+has ole_class =>
+  ( is => 'ro', isa => 'Str', default => 'SiebelDataServer.ApplicationObject' );
 
-sub BUILD {
-
-    my $self = shift;
-
-    my $app = Win32::OLE->new( $self->get_ole_class() ) or die "failed";
-
-    $self->_set_ole($app);
-
-}
-
-sub login {
+sub get_app_def {
 
     my $self = shift;
 
-    $self->get__ole()
-      ->Login( $self->get_user(), $self->get_password(),
-        $self->get_return_code() );
-
-}
-
-sub get_bus_object {
-
-    my $self    = shift;
-    my $bo_name = shift;
-
-    return $self->get__ole()
-      ->GetBusObject( $bo_name, $self->get_return_code() );
-
-}
-
-sub get_last_error {
-
-    my $self = shift;
-
-    $self->get__ole()->GetLastErrText();
-
-}
-
-sub DEMOLISH {
-
-    my $self = shift;
-
-    if ( defined( $self->get__ole() ) ) {
-
-        $self->get__ole()->Logoff();
-
-    }
+    return $self->get_cfg() . ',' . $self->get_data_source();
 
 }
 
 __PACKAGE__->meta->make_immutable;
-
 1;
 __END__
 # Below is stub documentation for your module. You'd better edit it!
