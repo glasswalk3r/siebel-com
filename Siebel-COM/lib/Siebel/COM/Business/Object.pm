@@ -4,6 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 use Moose;
+use Siebel::COM::Business::Component;
 
 extends 'Siebel::COM::Business';
 
@@ -12,8 +13,16 @@ sub get_bus_comp {
     my $self      = shift;
     my $comp_name = shift;
 
-    return $self->get__ole()
-      ->GetBusComp( $comp_name, $self->get_return_code() );
+    my $bc = Siebel::COM::Business::Component->new(
+        {
+            '_ole' => $self->get_ole()
+              ->GetBusComp( $comp_name, $self->get_return_code() )
+        }
+    );
+
+    $self->check_error();
+
+    return $bc;
 
 }
 

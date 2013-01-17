@@ -3,31 +3,33 @@ package Siebel::COM;
 use 5.010;
 use strict;
 use warnings;
-use Moose::Role;
+use feature 'say';
 use Win32::OLE::Variant;
 use Carp;
+use Moose::Role;
 
-use constant VERSION => 0.1;
+our $VERSION = 0.1;
 
-has '_ole' => ( is => 'ro', isa => 'Win32::OLE', reader => 'get_ole', writer => '_set_ole' );
+has '_ole' => (
+    is     => 'ro',
+    isa    => 'Win32::OLE',
+    reader => 'get_ole',
+    writer => '_set_ole'
+);
 
 has 'return_code' => (
     is      => 'ro',
     isa     => 'Win32::OLE::Variant',
     builder => '_build_variant',
-    reader  => 'get_return_code',
-    trigger => \&_set_rc
+    reader  => 'get_return_code'
 );
 
-sub _set_rc {
+sub check_error {
 
-    my ( $self, $rc, $old_rc ) = shift;
+    my $self = shift;
 
-    unless ( $rc == 0 ) {
-
-        confess 'method invocation returned an error';
-
-    }
+    confess 'the method returned an exception'
+      unless ( $self->get_return_code() == 0 );
 
 }
 
@@ -37,19 +39,8 @@ sub _build_variant {
 
 }
 
-sub check_error {
-
-    my $self = shift;
-
-    unless ( $self->get_return_code() == 0 ) {
-
-        die '[tag]';
-
-    }
-
-}
-
 1;
+
 __END__
 # Below is stub documentation for your module. You'd better edit it!
 

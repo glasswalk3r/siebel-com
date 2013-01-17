@@ -1,4 +1,4 @@
-package Siebel::COM::App::Business;
+package Siebel::COM::Business;
 
 use 5.010;
 use strict;
@@ -8,7 +8,6 @@ use Moose;
 use MooseX::FollowPBP;
 
 with 'Siebel::COM';
-
 
 __PACKAGE__->meta->make_immutable;
 
