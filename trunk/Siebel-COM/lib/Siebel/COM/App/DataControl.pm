@@ -14,7 +14,7 @@ has enterprise => ( is => 'rw', isa => 'Str' );
 has lang       => ( is => 'rw', isa => 'Str' );
 has aom        => ( is => 'rw', isa => 'Str' );
 
-has ole_class => (
+has 'ole_class' => (
     is      => 'ro',
     isa     => 'Str',
     default => 'SiebelDataControl.SiebelDataControl'
@@ -32,15 +32,6 @@ sub app_def {
       . $self->get_server()
       . '" Lang="'
       . $self->get_lang() . '"';
-
-}
-
-sub BUILD {
-
-    my $self = shift;
-
-    $self->get_ole()
-      ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
 
 }
 

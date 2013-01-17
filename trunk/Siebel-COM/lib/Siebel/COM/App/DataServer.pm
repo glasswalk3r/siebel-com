@@ -8,25 +8,16 @@ use namespace::autoclean;
 
 extends 'Siebel::COM::App';
 
-has cfg         => ( is => 'rw', isa => 'Str' );
-has data_source => ( is => 'rw', isa => 'Str' );
+has cfg         => ( is => 'rw', isa => 'Str', required => 1 );
+has data_source => ( is => 'rw', isa => 'Str', required => 1 );
 has ole_class =>
   ( is => 'ro', isa => 'Str', default => 'SiebelDataServer.ApplicationObject' );
 
-sub app_def {
+sub get_app_def {
 
     my $self = shift;
 
     return $self->get_cfg() . ',' . $self->get_data_source();
-
-}
-
-sub BUILD {
-
-    my $self = shift;
-
-    $self->get_ole()
-      ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
 
 }
 

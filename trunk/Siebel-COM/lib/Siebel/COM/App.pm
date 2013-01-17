@@ -6,12 +6,13 @@ use warnings;
 use Win32::OLE;
 use Moose;
 use MooseX::FollowPBP;
+use Siebel::COM::Business::Object;
 use namespace::autoclean;
 
 with 'Siebel::COM';
 
-has 'user'      => ( is => 'ro', isa => 'Str' );
-has 'password'  => ( is => 'ro', isa => 'Str' );
+has 'user'     => ( is => 'ro', isa => 'Str', required => 1 );
+has 'password' => ( is => 'ro', isa => 'Str', required => 1 );
 has 'ole_class' => ( is => 'ro', isa => 'Str' );
 
 sub BUILD {
@@ -22,15 +23,25 @@ sub BUILD {
 
     $self->_set_ole($app);
 
+    my $objects_ref =
+      $self->get_ole()
+      ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
+
+    $self->check_error();
+
+    return $objects_ref;
+
 }
 
 sub login {
 
     my $self = shift;
 
-    $self->get__ole()
+    $self->get_ole()
       ->Login( $self->get_user(), $self->get_password(),
         $self->get_return_code() );
+
+    $self->check_error();
 
 }
 
@@ -39,8 +50,16 @@ sub get_bus_object {
     my $self    = shift;
     my $bo_name = shift;
 
-    return $self->get__ole()
-      ->GetBusObject( $bo_name, $self->get_return_code() );
+    my $bo = Siebel::COM::Business::Object->new(
+        {
+            '_ole' => $self->get_ole()
+              ->GetBusObject( $bo_name, $self->get_return_code() )
+        }
+    );
+
+    $self->check_error();
+
+    return $bo;
 
 }
 
@@ -48,7 +67,8 @@ sub get_last_error {
 
     my $self = shift;
 
-    $self->get__ole()->GetLastErrText();
+    return $self->get_ole()->GetLastErrText()
+      ; # this is a Win32::OLE method, not from Siebel API, so return_code is not necessary here
 
 }
 
@@ -56,15 +76,15 @@ sub DEMOLISH {
 
     my $self = shift;
 
-    if ( defined( $self->get__ole() ) ) {
+    if ( defined( $self->get_ole() ) ) {
 
-        $self->get__ole()->Logoff();
+        $self->get_ole()->Logoff( $self->get_return_code() );
+
+        $self->check_error();
 
     }
 
 }
-
-__PACKAGE__->meta->make_immutable;
 
 1;
 __END__

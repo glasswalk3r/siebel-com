@@ -1,9 +1,10 @@
-package Siebel::COM::App::Business::Component;
+package Siebel::COM::Business::Component;
 
 use 5.010;
 use strict;
 use warnings;
 use Moose;
+use Siebel::COM::Constants;
 
 extends 'Siebel::COM::Business';
 
@@ -13,6 +14,19 @@ sub activate_field {
     my $field_name = shift;
 
     $self->get_ole()->ActivateField( $field_name, $self->get_return_code() );
+    $self->check_error();
+
+}
+
+sub get_field_value {
+
+    my $self       = shift;
+    my $field_name = shift;
+
+    my $value =
+      $self->get_ole()->GetFieldValue( $field_name, $self->get_return_code() );
+    $self->check_error();
+    return $value;
 
 }
 
@@ -21,6 +35,7 @@ sub clear_query {
     my $self = shift;
 
     $self->get_ole()->ClearToQuery( $self->get_return_code() );
+    $self->check_error();
 
 }
 
@@ -30,15 +45,20 @@ sub set_search_expr {
     my $search_expr = shift;
 
     $self->get_ole()->SetSearchExpr( $search_expr, $self->get_return_code() );
+    $self->check_error();
 
 }
 
 sub query {
 
     my $self        = shift;
-    my $cursor_type = shift;
+    my $cursor_type = shift;    # optional parameter
+
+    $cursor_type = FORWARD_ONLY
+      unless ( defined($cursor_type) );    # default cursor type
 
     $self->get_ole()->ExecuteQuery( $cursor_type, $self->get_return_code() );
+    $self->check_error();
 
 }
 
@@ -46,7 +66,9 @@ sub first_record {
 
     my $self = shift;
 
-    return $self->get_ole()->FirstRecord( $self->get_return_code() );
+    my $boolean = $self->get_ole()->FirstRecord( $self->get_return_code() );
+    $self->check_error();
+    return $boolean;
 
 }
 
@@ -54,7 +76,9 @@ sub next_record {
 
     my $self = shift;
 
-    return $self->get_ole()->NextRecord( $self->get_return_code() );
+    my $boolean = $self->get_ole()->NextRecord( $self->get_return_code() );
+    $self->check_error();
+    return $boolean;
 
 }
 
