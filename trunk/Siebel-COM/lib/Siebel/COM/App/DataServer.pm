@@ -5,6 +5,7 @@ use strict;
 use warnings;
 use Moose;
 use namespace::autoclean;
+use Carp;
 
 extends 'Siebel::COM::App';
 
@@ -12,6 +13,18 @@ has cfg         => ( is => 'rw', isa => 'Str', required => 1 );
 has data_source => ( is => 'rw', isa => 'Str', required => 1 );
 has ole_class =>
   ( is => 'ro', isa => 'Str', default => 'SiebelDataServer.ApplicationObject' );
+
+sub BUILD {
+
+    my $self = shift;
+
+    my $cfg = $self->get_cfg();
+
+    open( my $read, '<', $cfg )
+      or confess "could not read cfg file $cfg: $!";
+    close($read);
+
+}
 
 sub get_app_def {
 

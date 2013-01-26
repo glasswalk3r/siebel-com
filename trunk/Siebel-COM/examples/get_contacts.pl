@@ -6,6 +6,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 my $help = 0;
+my $man  = 0;
 
 my ( $user, $password, $cfg, $datasource );
 
@@ -14,9 +15,12 @@ GetOptions(
     'password=s'   => \$password,
     'help|?'       => \$help,
     'cfg=s'        => \$cfg,
-    'datasource=s' => \$datasource
+    'datasource=s' => \$datasource,
+    'man|?'        => \$man
 ) or pod2usage(2);
 pod2usage(1) if $help;
+
+pod2usage( -exitstatus => 0, -verbose => 2 ) if $man;
 
 pod2usage(2)
   unless ( ( defined($user) )
@@ -47,9 +51,10 @@ eval {
 
     $sa = Siebel::COM::App::DataServer->new(
         {
-            cfg         => 'C:\Siebel\8.1\Client\bin\ptb\scomm.cfg',
-            data_source => 'ServerDataSrcDEV',
-            user        => $user password => $password
+            cfg         => $cfg,
+            data_source => $datasource,
+            user        => $user,
+            password    => $password
         }
     );
 
@@ -105,13 +110,20 @@ get contact data from a Siebel database by using COM
 
 =head1 SYNOPSIS
 
-get_contacts.pl --user=foobar --password=foobar [--help]
+get_contacts.pl --user=foobar --password=foobar --cfg=foobar.cfg --datasource=foobar [--help] [--man]
 
 Options:
+
     --help          this brief help message
+    
+    --man           full description of the script
+
     --user          user for connection authentication
+
     --password      password for to authentication
+
     --cfg           Siebel client configuration file
+
     --datasource    the datasource inside the configuration file to be used
 
 =head1 DESCRIPTION
@@ -121,31 +133,55 @@ This is a simple example of usage of L<Siebel::COM>.
 This script will connect to a Siebel database by using COM (more specifically Siebel COM data server) and loop over all contacts in the database, printing to the
 STDOUT the following information:
 
-=over 12
+=over
 
-=item Birth Date
+=item *
 
-=item Created
+Birth Date
 
-=item Created By Name
+=item *
 
-=item Email Address
+Created
 
-=item Fax Phone
+=item *
 
-=item First Name
+Created By Name
 
-=item Id
+=item *
 
-=item Job Title
+Email Address
 
-=item Last Name
+=item *
 
-=item Updated
+Fax Phone
 
-=item Updated By Name
+=item *
 
-=item Work Phone
+First Name
+
+=item *
+
+Id
+
+=item *
+
+Job Title
+
+=item *
+
+Last Name
+
+=item *
+
+Updated
+
+=item *
+
+Updated By Name
+
+=item *
+
+Work Phone
 
 =back
 

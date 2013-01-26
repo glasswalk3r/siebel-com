@@ -8,6 +8,7 @@ use Moose;
 use MooseX::FollowPBP;
 use Siebel::COM::Business::Object;
 use namespace::autoclean;
+use Carp;
 
 with 'Siebel::COM';
 
@@ -19,17 +20,18 @@ sub BUILD {
 
     my $self = shift;
 
-    my $app = Win32::OLE->new( $self->get_ole_class() ) or die "failed";
+    my $app = Win32::OLE->new( $self->get_ole_class() )
+      or confess( 'failed to load ' . $self->get_ole_class() . ': ' . $! );
 
     $self->_set_ole($app);
 
-    my $objects_ref =
+    my $object_ref =
       $self->get_ole()
       ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
 
     $self->check_error();
 
-    return $objects_ref;
+    return $object_ref;
 
 }
 
