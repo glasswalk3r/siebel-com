@@ -96,7 +96,16 @@ eval {
 if ($@) {
 
     warn $@;
-    die $sa->get_last_error() if ( defined($sa) );
+    if ( defined($sa) ) {
+
+        die $sa->get_last_error();
+
+    }
+    else {
+
+        die Win32::OLE->LastError();
+
+    }
 
 }
 
