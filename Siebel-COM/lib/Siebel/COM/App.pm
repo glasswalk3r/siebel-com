@@ -8,13 +8,15 @@ use Moose;
 use MooseX::FollowPBP;
 use Siebel::COM::Business::Object;
 use namespace::autoclean;
-use Carp;
 
 with 'Siebel::COM';
 
 has 'user'     => ( is => 'ro', isa => 'Str', required => 1 );
 has 'password' => ( is => 'ro', isa => 'Str', required => 1 );
 has 'ole_class' => ( is => 'ro', isa => 'Str' );
+
+# to avoid trying to logoff Siebel application if some serious exception happens. Would TryCatch eliminate that?
+has 'exception' => ( is => 'rw', isa => 'Bool', default => 0 );
 
 sub BUILD {
 
@@ -28,10 +30,27 @@ sub BUILD {
     my $object_ref =
       $self->get_ole()
       ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
+    $self->check_error();
 
+    $self->get_ole()->EnableException(1);
     $self->check_error();
 
     return $object_ref;
+
+}
+
+# :TODO      :28/01/2013 18:01:08:: had to complete override the COM.pm method to be able to get some error message from Siebel
+# maybe if using TryCatch a proper Moose override could be used instead?
+sub check_error {
+
+    my $self = shift;
+
+    unless ( $self->get_return_code() == 0 ) {
+
+        $self->set_exception(1);
+        confess( 'An exception was raised: ' . $self->get_last_error() );
+
+    }
 
 }
 
@@ -69,8 +88,29 @@ sub get_last_error {
 
     my $self = shift;
 
-    return $self->get_ole()->GetLastErrText()
-      ; # this is a Win32::OLE method, not from Siebel API, so return_code is not necessary here
+    return $self->get_ole()->GetLastErrText();
+
+}
+
+# this is an abstract method
+sub get_app_error {
+
+    my $class = shift;
+    my $app   = shift;
+
+    if ( defined($app) ) {
+
+        confess $app->get_last_error();
+
+    }
+    else {
+
+        confess('Could not instantiate a object of '
+              . $class
+              . '. Win32:OLE returned code = '
+              . Win32::OLE->LastError() );
+
+    }
 
 }
 
@@ -78,7 +118,9 @@ sub DEMOLISH {
 
     my $self = shift;
 
-    if ( defined( $self->get_ole() ) ) {
+    if (    ( defined( $self->get_ole() ) )
+        and ( not( $self->get_exception() ) ) )
+    {
 
         $self->get_ole()->Logoff( $self->get_return_code() );
 
