@@ -1,9 +1,9 @@
 use strict;
 use warnings;
-use Siebel::COM::App::DataServer;
 use feature 'say';
 use Getopt::Long;
 use Pod::Usage;
+use Siebel::COM::App::DataServer;
 
 my $help = 0;
 my $man  = 0;
@@ -96,16 +96,7 @@ eval {
 if ($@) {
 
     warn $@;
-    if ( defined($sa) ) {
-
-        die $sa->get_last_error();
-
-    }
-    else {
-
-        die Win32::OLE->LastError();
-
-    }
+    Siebel::COM::App::DataServer->get_app_error($sa);
 
 }
 
