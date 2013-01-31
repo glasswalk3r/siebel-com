@@ -11,9 +11,9 @@ use namespace::autoclean;
 
 with 'Siebel::COM';
 
-has 'user'     => ( is => 'ro', isa => 'Str', required => 1 );
-has 'password' => ( is => 'ro', isa => 'Str', required => 1 );
-has 'ole_class' => ( is => 'ro', isa => 'Str' );
+has 'user'      => ( is => 'ro', isa => 'Str', required => 1 );
+has 'password'  => ( is => 'ro', isa => 'Str', required => 1 );
+has 'ole_class' => ( is => 'ro', isa => 'Str', required => 1 );
 
 # to avoid trying to logoff Siebel application if some serious exception happens. Would TryCatch eliminate that?
 has 'exception' => ( is => 'rw', isa => 'Bool', default => 0 );
@@ -27,12 +27,12 @@ sub BUILD {
 
     $self->_set_ole($app);
 
+    $self->get_ole()->EnableException(1);
+    $self->check_error();
+
     my $object_ref =
       $self->get_ole()
       ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
-    $self->check_error();
-
-    $self->get_ole()->EnableException(1);
     $self->check_error();
 
     return $object_ref;
