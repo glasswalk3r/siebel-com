@@ -7,16 +7,12 @@ use Win32::OLE;
 use Moose;
 use MooseX::FollowPBP;
 use Siebel::COM::Business::Object;
+use Siebel::COM::Business::Object::DataServer;
 use namespace::autoclean;
-
-with 'Siebel::COM';
 
 has 'user'      => ( is => 'ro', isa => 'Str', required => 1 );
 has 'password'  => ( is => 'ro', isa => 'Str', required => 1 );
 has 'ole_class' => ( is => 'ro', isa => 'Str', required => 1 );
-
-# to avoid trying to logoff Siebel application if some serious exception happens. Would TryCatch eliminate that?
-has 'exception' => ( is => 'rw', isa => 'Bool', default => 0 );
 
 sub BUILD {
 
@@ -27,30 +23,15 @@ sub BUILD {
 
     $self->_set_ole($app);
 
-    $self->get_ole()->EnableException(1);
-    $self->check_error();
-
-    my $object_ref =
-      $self->get_ole()
-      ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
-    $self->check_error();
-
-    return $object_ref;
+    return $self->load_objects();
 
 }
 
-# :TODO      :28/01/2013 18:01:08:: had to complete override the COM.pm method to be able to get some error message from Siebel
-# maybe if using TryCatch a proper Moose override could be used instead?
-sub check_error {
+sub load_objects {
 
     my $self = shift;
 
-    unless ( $self->get_return_code() == 0 ) {
-
-        $self->set_exception(1);
-        confess( 'An exception was raised: ' . $self->get_last_error() );
-
-    }
+    return $self->get_ole()->LoadObjects( $self->get_app_def() );
 
 }
 
@@ -58,11 +39,7 @@ sub login {
 
     my $self = shift;
 
-    $self->get_ole()
-      ->Login( $self->get_user(), $self->get_password(),
-        $self->get_return_code() );
-
-    $self->check_error();
+    $self->get_ole()->Login( $self->get_user(), $self->get_password() );
 
 }
 
@@ -72,13 +49,7 @@ sub get_bus_object {
     my $bo_name = shift;
 
     my $bo = Siebel::COM::Business::Object->new(
-        {
-            '_ole' => $self->get_ole()
-              ->GetBusObject( $bo_name, $self->get_return_code() )
-        }
-    );
-
-    $self->check_error();
+        { '_ole' => $self->get_ole()->GetBusObject($bo_name) } );
 
     return $bo;
 
@@ -89,44 +60,6 @@ sub get_last_error {
     my $self = shift;
 
     return $self->get_ole()->GetLastErrText();
-
-}
-
-# this is an abstract method
-sub get_app_error {
-
-    my $class = shift;
-    my $app   = shift;
-
-    if ( defined($app) ) {
-
-        confess $app->get_last_error();
-
-    }
-    else {
-
-        confess('Could not instantiate a object of '
-              . $class
-              . '. Win32:OLE returned code = '
-              . Win32::OLE->LastError() );
-
-    }
-
-}
-
-sub DEMOLISH {
-
-    my $self = shift;
-
-    if (    ( defined( $self->get_ole() ) )
-        and ( not( $self->get_exception() ) ) )
-    {
-
-        $self->get_ole()->Logoff( $self->get_return_code() );
-
-        $self->check_error();
-
-    }
 
 }
 

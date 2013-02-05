@@ -3,9 +3,6 @@ package Siebel::COM;
 use 5.010;
 use strict;
 use warnings;
-use feature 'say';
-use Win32::OLE::Variant;
-use Carp;
 use Moose::Role;
 
 our $VERSION = 0.1;
@@ -16,28 +13,6 @@ has '_ole' => (
     reader => 'get_ole',
     writer => '_set_ole'
 );
-
-has 'return_code' => (
-    is      => 'ro',
-    isa     => 'Win32::OLE::Variant',
-    builder => '_build_variant',
-    reader  => 'get_return_code'
-);
-
-sub check_error {
-
-    my $self = shift;
-
-    confess 'the method returned an exception'
-      unless ( $self->get_return_code() == 0 );
-
-}
-
-sub _build_variant {
-
-    return Variant( VT_I2 | VT_BYREF, 0 );
-
-}
 
 1;
 

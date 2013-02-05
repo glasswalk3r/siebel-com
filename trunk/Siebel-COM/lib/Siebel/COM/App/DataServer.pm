@@ -7,6 +7,7 @@ use Moose;
 use namespace::autoclean;
 
 extends 'Siebel::COM::App';
+with 'Siebel::COM::Exception::DataServer';
 
 has cfg         => ( is => 'rw', isa => 'Str', required => 1 );
 has data_source => ( is => 'rw', isa => 'Str', required => 1 );
@@ -24,6 +25,49 @@ sub get_app_def {
     close($read);
 
     return $cfg . ',' . $self->get_data_source();
+
+}
+
+around 'load_objects' => sub {
+
+    my $orig = shift;
+    my $self = shift;
+
+    my $object_ref =
+      $self->$orig( $self->get_app_def(), $self->get_return_code() );
+    $self->check_error();
+
+    return $object_ref;
+
+};
+
+around 'login' => sub {
+
+    my $orig = shift;
+    my $self = shift;
+
+    $self->$orig( $self->get_user(), $self->get_password(),
+        $self->get_return_code() );
+
+    $self->check_error();
+
+};
+
+sub get_bus_object {
+
+    my $self    = shift;
+    my $bo_name = shift;
+
+    my $bo = Siebel::COM::Business::Object::DataServer->new(
+        {
+            '_ole' => $self->get_ole()
+              ->GetBusObject( $bo_name, $self->get_return_code() )
+        }
+    );
+
+    $self->check_error();
+
+    return $bo;
 
 }
 
