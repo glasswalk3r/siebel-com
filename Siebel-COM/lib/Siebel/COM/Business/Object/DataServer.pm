@@ -1,62 +1,32 @@
-package Siebel::COM::App::DataControl;
+package Siebel::COM::Business::Object::DataServer;
 
 use 5.010;
 use strict;
 use warnings;
 use Moose;
-use namespace::autoclean;
+use Siebel::COM::Business::Component::DataServer;
 
-extends 'Siebel::COM::App';
+extends 'Siebel::COM::Business';
+with 'Siebel::COM::Exception::DataServer';
 
-has gateway    => ( is => 'rw', isa => 'Str' );
-has server     => ( is => 'rw', isa => 'Str' );
-has enterprise => ( is => 'rw', isa => 'Str' );
-has lang       => ( is => 'rw', isa => 'Str' );
-has aom        => ( is => 'rw', isa => 'Str' );
+sub get_bus_comp {
 
-has 'ole_class' => (
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'SiebelDataControl.SiebelDataControl.1'
-);
+    my $self      = shift;
+    my $comp_name = shift;
 
-sub BUILD {
+    my $bc = Siebel::COM::Business::Component::DataServer->new(
+        {
+            '_ole' => $self->get_ole()
+              ->GetBusComp( $comp_name, $self->get_return_code() )
+        }
+    );
 
-	my $self = shift;
-	$self->get_ole()->EnableException(1);
+    $self->check_error();
 
-}
-
-sub app_def {
-
-    my $self = shift;
-
-    return
-        'host="siebel://'
-      . $self->get_gateway() . '/'
-      . $self->get_enterprise() . '/'
-      . $self->get_aom() . '/'
-      . $self->get_server()
-      . '" Lang="'
-      . $self->get_lang() . '"';
+    return $bc;
 
 }
 
-sub DEMOLISH {
-
-    my $self = shift;
-
-    if (    ( defined( $self->get_ole() ) )
-        and ( not( $self->get_exception() ) ) )
-    {
-
-        $self->get_ole()->Logoff();
-
-    }
-
-}
-
-__PACKAGE__->meta->make_immutable;
 1;
 __END__
 # Below is stub documentation for your module. You'd better edit it!
