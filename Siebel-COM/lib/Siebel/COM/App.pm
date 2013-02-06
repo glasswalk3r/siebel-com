@@ -10,6 +10,8 @@ use Siebel::COM::Business::Object;
 use Siebel::COM::Business::Object::DataServer;
 use namespace::autoclean;
 
+with 'Siebel::COM';
+
 has 'user'      => ( is => 'ro', isa => 'Str', required => 1 );
 has 'password'  => ( is => 'ro', isa => 'Str', required => 1 );
 has 'ole_class' => ( is => 'ro', isa => 'Str', required => 1 );
@@ -21,17 +23,9 @@ sub BUILD {
     my $app = Win32::OLE->new( $self->get_ole_class() )
       or confess( 'failed to load ' . $self->get_ole_class() . ': ' . $! );
 
+    Win32::OLE->Option( Warn => 3 );
+
     $self->_set_ole($app);
-
-    return $self->load_objects();
-
-}
-
-sub load_objects {
-
-    my $self = shift;
-
-    return $self->get_ole()->LoadObjects( $self->get_app_def() );
 
 }
 

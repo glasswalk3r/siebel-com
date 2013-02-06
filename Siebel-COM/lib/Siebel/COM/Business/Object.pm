@@ -11,16 +11,13 @@ extends 'Siebel::COM::Business';
 sub get_bus_comp {
 
     my $self      = shift;
-    my $comp_name = shift;
 
     my $bc = Siebel::COM::Business::Component->new(
         {
             '_ole' => $self->get_ole()
-              ->GetBusComp( $comp_name, $self->get_return_code() )
+              ->GetBusComp( @_ )
         }
     );
-
-    $self->check_error();
 
     return $bc;
 

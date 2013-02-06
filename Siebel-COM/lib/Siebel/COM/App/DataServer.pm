@@ -14,6 +14,13 @@ has data_source => ( is => 'rw', isa => 'Str', required => 1 );
 has ole_class =>
   ( is => 'ro', isa => 'Str', default => 'SiebelDataServer.ApplicationObject' );
 
+sub BUILD {
+
+    my $self = shift;
+    $self->load_objects();
+
+}
+
 sub get_app_def {
 
     my $self = shift;
@@ -28,25 +35,22 @@ sub get_app_def {
 
 }
 
-around 'load_objects' => sub {
+sub load_objects {
 
-    my $orig = shift;
     my $self = shift;
 
-    my $object_ref =
-      $self->$orig( $self->get_app_def(), $self->get_return_code() );
+    my $object = $self->get_ole()->LoadObjects( $self->get_app_def() );
     $self->check_error();
+    return $object;
 
-    return $object_ref;
+}
 
-};
+override 'login' => sub {
 
-around 'login' => sub {
-
-    my $orig = shift;
     my $self = shift;
 
-    $self->$orig( $self->get_user(), $self->get_password(),
+    $self->get_ole()
+      ->Login( $self->get_user(), $self->get_password(),
         $self->get_return_code() );
 
     $self->check_error();
