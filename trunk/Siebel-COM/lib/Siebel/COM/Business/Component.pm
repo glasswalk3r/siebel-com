@@ -5,28 +5,23 @@ use strict;
 use warnings;
 use Moose;
 use Siebel::COM::Constants;
+use TryCatch;
 
 extends 'Siebel::COM::Business';
 
 sub activate_field {
 
-    my $self       = shift;
-    my $field_name = shift;
+    my $self = shift;
 
-    $self->get_ole()->ActivateField( $field_name, $self->get_return_code() );
-    $self->check_error();
+    $self->get_ole()->ActivateField(@_);
 
 }
 
 sub get_field_value {
 
-    my $self       = shift;
-    my $field_name = shift;
+    my $self = shift;
 
-    my $value =
-      $self->get_ole()->GetFieldValue( $field_name, $self->get_return_code() );
-    $self->check_error();
-    return $value;
+    return $self->get_ole()->GetFieldValue(@_);
 
 }
 
@@ -34,31 +29,34 @@ sub clear_query {
 
     my $self = shift;
 
-    $self->get_ole()->ClearToQuery( $self->get_return_code() );
-    $self->check_error();
+    $self->get_ole()->ClearToQuery(@_);
 
 }
 
 sub set_search_expr {
 
-    my $self        = shift;
-    my $search_expr = shift;
+    my $self = shift;
 
-    $self->get_ole()->SetSearchExpr( $search_expr, $self->get_return_code() );
-    $self->check_error();
+    $self->get_ole()->SetSearchExpr(@_);
+
+}
+
+sub set_search_spec {
+
+	my $self = shift;
+
+	$self->get_ole()->SetSearchSpec(@_);
 
 }
 
 sub query {
 
-    my $self        = shift;
-    my $cursor_type = shift;    # optional parameter
+    my $self = shift;
 
-    $cursor_type = FORWARD_ONLY
-      unless ( defined($cursor_type) );    # default cursor type
+    push( @_, FORWARD_ONLY )
+      unless (@_);    # default cursor type
 
-    $self->get_ole()->ExecuteQuery( $cursor_type, $self->get_return_code() );
-    $self->check_error();
+    $self->get_ole()->ExecuteQuery(@_);
 
 }
 
@@ -66,8 +64,7 @@ sub first_record {
 
     my $self = shift;
 
-    my $boolean = $self->get_ole()->FirstRecord( $self->get_return_code() );
-    $self->check_error();
+    my $boolean = $self->get_ole()->FirstRecord(@_);
     return $boolean;
 
 }
@@ -76,9 +73,24 @@ sub next_record {
 
     my $self = shift;
 
-    my $boolean = $self->get_ole()->NextRecord( $self->get_return_code() );
-    $self->check_error();
+    my $boolean = $self->get_ole()->NextRecord(@_);
     return $boolean;
+
+}
+
+sub set_field_value {
+
+    my $self = shift;
+
+    $self->get_ole()->SetFieldValue(@_);
+
+}
+
+sub write_record {
+
+    my $self = shift;
+
+    $self->get_ole()->WriteRecord(@_);
 
 }
 

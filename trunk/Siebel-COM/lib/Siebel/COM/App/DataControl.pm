@@ -8,11 +8,19 @@ use namespace::autoclean;
 
 extends 'Siebel::COM::App';
 
-has gateway    => ( is => 'rw', isa => 'Str' );
-has server     => ( is => 'rw', isa => 'Str' );
-has enterprise => ( is => 'rw', isa => 'Str' );
-has lang       => ( is => 'rw', isa => 'Str' );
-has aom        => ( is => 'rw', isa => 'Str' );
+has gateway    => ( is => 'rw', isa => 'Str', required => 1 );
+has server     => ( is => 'rw', isa => 'Str', required => 0 );
+has enterprise => ( is => 'rw', isa => 'Str', required => 1 );
+has lang       => ( is => 'rw', isa => 'Str', required => 1 );
+has aom        => ( is => 'rw', isa => 'Str', required => 1 );
+has connected  => (
+    is       => 'rw',
+    isa      => 'Bool',
+    default  => 0,
+    required => 0,
+    reader   => 'is_connected',
+    writer   => 'set_connected'
+);
 
 has 'ole_class' => (
     is      => 'ro',
@@ -22,33 +30,57 @@ has 'ole_class' => (
 
 sub BUILD {
 
-	my $self = shift;
-	$self->get_ole()->EnableException(1);
+    my $self = shift;
+    $self->get_ole()->EnableExceptions(1);
 
 }
 
-sub app_def {
+sub get_conn_str {
 
     my $self = shift;
 
-    return
-        'host="siebel://'
-      . $self->get_gateway() . '/'
-      . $self->get_enterprise() . '/'
-      . $self->get_aom() . '/'
-      . $self->get_server()
-      . '" Lang="'
-      . $self->get_lang() . '"';
+    if ( defined( $self->get_server() ) ) {
+
+        return
+            'host="siebel://'
+          . $self->get_gateway() . '/'
+          . $self->get_enterprise() . '/'
+          . $self->get_aom() . '/'
+          . $self->get_server()
+          . '" Lang="'
+          . $self->get_lang() . '"';
+
+    }
+    else {
+
+        return
+            'host="siebel://'
+          . $self->get_gateway() . '/'
+          . $self->get_enterprise() . '/'
+          . $self->get_aom() . '/'
+          . '" Lang="'
+          . $self->get_lang() . '"';
+
+    }
 
 }
+
+override 'login' => sub {
+
+    my $self = shift;
+
+    $self->get_ole->Login( $self->get_conn_str(), $self->get_user(),
+        $self->get_password() );
+
+	$self->set_connected(1);
+
+};
 
 sub DEMOLISH {
 
     my $self = shift;
 
-    if (    ( defined( $self->get_ole() ) )
-        and ( not( $self->get_exception() ) ) )
-    {
+    if ( $self->is_connected() ) {
 
         $self->get_ole()->Logoff();
 
