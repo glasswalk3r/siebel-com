@@ -10,14 +10,11 @@ extends 'Siebel::COM::Business';
 
 sub get_bus_comp {
 
-    my $self      = shift;
+    my $self    = shift;
+    my $bc_name = shift;
 
     my $bc = Siebel::COM::Business::Component->new(
-        {
-            '_ole' => $self->get_ole()
-              ->GetBusComp( @_ )
-        }
-    );
+        { '_ole' => $self->get_ole()->GetBusComp($bc_name) } );
 
     return $bc;
 

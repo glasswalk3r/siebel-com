@@ -8,12 +8,12 @@ use namespace::autoclean;
 
 extends 'Siebel::COM::App';
 
-has gateway    => ( is => 'rw', isa => 'Str', required => 1 );
-has server     => ( is => 'rw', isa => 'Str', required => 0 );
+has host       => ( is => 'rw', isa => 'Str', required => 1 );
 has enterprise => ( is => 'rw', isa => 'Str', required => 1 );
 has lang       => ( is => 'rw', isa => 'Str', required => 1 );
 has aom        => ( is => 'rw', isa => 'Str', required => 1 );
-has connected  => (
+
+has connected => (
     is       => 'rw',
     isa      => 'Bool',
     default  => 0,
@@ -28,6 +28,16 @@ has 'ole_class' => (
     default => 'SiebelDataControl.SiebelDataControl.1'
 );
 
+sub _error {
+
+    my $self = shift;
+
+    return ('('
+          . $self->get_ole()->GetLastErrCode() . '): '
+          . $self->get_ole()->GetLastErrText() );
+
+}
+
 sub BUILD {
 
     my $self = shift;
@@ -39,14 +49,13 @@ sub get_conn_str {
 
     my $self = shift;
 
-    if ( defined( $self->get_server() ) ) {
+    if ( defined( $self->get_lang() ) ) {
 
         return
-            'host="siebel://'
-          . $self->get_gateway() . '/'
+            'host="siebel.TCPIP.None.None://'
+          . $self->get_host() . '/'
           . $self->get_enterprise() . '/'
-          . $self->get_aom() . '/'
-          . $self->get_server()
+          . $self->get_aom()
           . '" Lang="'
           . $self->get_lang() . '"';
 
@@ -54,12 +63,11 @@ sub get_conn_str {
     else {
 
         return
-            'host="siebel://'
-          . $self->get_gateway() . '/'
+            'host="siebel.TCPIP.None.None://'
+          . $self->get_host() . '/'
           . $self->get_enterprise() . '/'
-          . $self->get_aom() . '/'
-          . '" Lang="'
-          . $self->get_lang() . '"';
+          . $self->get_enterprise() . '/'
+          . $self->get_aom();
 
     }
 
@@ -69,10 +77,11 @@ override 'login' => sub {
 
     my $self = shift;
 
-    $self->get_ole->Login( $self->get_conn_str(), $self->get_user(),
+    $self->get_ole()
+      ->Login( $self->get_conn_str(), $self->get_user(),
         $self->get_password() );
 
-	$self->set_connected(1);
+    $self->set_connected(1);
 
 };
 

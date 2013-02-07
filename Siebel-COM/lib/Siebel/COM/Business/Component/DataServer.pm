@@ -58,10 +58,20 @@ around 'set_search_expr' => sub {
 
 around 'set_search_spec' => sub {
 
-	my $orig = shift;
-	my $self = shift;
+    my $orig = shift;
+    my $self = shift;
 
-	$self->$orig(@_, $self->get_return_code());
+    $self->$orig( @_, $self->get_return_code() );
+    $self->check_error();
+
+};
+
+around 'get_search_spec' => sub {
+
+    my $orig = shift;
+    my $self = shift;
+
+    $self->$orig( @_, $self->get_return_code() );
     $self->check_error();
 
 };
@@ -120,6 +130,25 @@ around 'write_record' => sub {
 
     $self->$orig( $self->get_return_code() );
     $self->check_error();
+
+};
+
+around 'set_view_mode' => sub {
+
+    my $orig = shift;
+    my $self = shift;
+    my $mode = shift;
+
+    if ( defined($mode) ) {
+
+        $self->$orig( $mode, $self->get_return_code() );
+
+    }
+    else {
+
+        $self->$orig( 3, $self->get_return_code() );
+
+    }
 
 };
 
