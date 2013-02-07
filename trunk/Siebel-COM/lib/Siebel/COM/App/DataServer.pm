@@ -14,6 +14,16 @@ has data_source => ( is => 'rw', isa => 'Str', required => 1 );
 has ole_class =>
   ( is => 'ro', isa => 'Str', default => 'SiebelDataServer.ApplicationObject' );
 
+sub _error {
+
+    my $self = shift;
+
+    return ('('
+          . $self->get_return_code() . '): '
+          . $self->get_ole()->GetLastErrText() );
+
+}
+
 sub BUILD {
 
     my $self = shift;
@@ -39,7 +49,9 @@ sub load_objects {
 
     my $self = shift;
 
-    my $object = $self->get_ole()->LoadObjects( $self->get_app_def() );
+    my $object =
+      $self->get_ole()
+      ->LoadObjects( $self->get_app_def(), $self->get_return_code() );
     $self->check_error();
     return $object;
 

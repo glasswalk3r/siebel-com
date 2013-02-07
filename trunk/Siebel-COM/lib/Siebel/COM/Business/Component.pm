@@ -49,6 +49,14 @@ sub set_search_spec {
 
 }
 
+sub get_search_spec {
+
+	my $self = shift;
+
+	$self->get_ole()->GetSearchSpec(@_);
+
+}
+
 sub query {
 
     my $self = shift;
@@ -91,6 +99,16 @@ sub write_record {
     my $self = shift;
 
     $self->get_ole()->WriteRecord(@_);
+
+}
+
+sub set_view_mode {
+
+	my $self = shift;
+
+	push(@_, 3) unless(@_);
+
+	$self->get_ole()->SetViewMode(@_);
 
 }
 

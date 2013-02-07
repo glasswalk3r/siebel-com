@@ -18,8 +18,12 @@ sub check_error {
 
     my $self = shift;
 
-    die 'the method returned an exception'
-      unless ( $self->get_return_code() == 0 );
+    unless ( $self->get_return_code() == 0 ) {
+
+        my $msg = Win32::OLE->LastError();
+        die 'The method returned an exception: $msg';
+
+    }
 
 }
 

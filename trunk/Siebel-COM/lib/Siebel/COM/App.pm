@@ -53,7 +53,7 @@ sub get_last_error {
 
     my $self = shift;
 
-    return $self->get_ole()->GetLastErrText();
+    return $self->_error();
 
 }
 
