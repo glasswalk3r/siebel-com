@@ -1,8 +1,6 @@
 package Siebel::COM::App::DataControl;
 
 use 5.010;
-use strict;
-use warnings;
 use Moose;
 use namespace::autoclean;
 
@@ -12,6 +10,12 @@ has host       => ( is => 'rw', isa => 'Str', required => 1 );
 has enterprise => ( is => 'rw', isa => 'Str', required => 1 );
 has lang       => ( is => 'rw', isa => 'Str', required => 1 );
 has aom        => ( is => 'rw', isa => 'Str', required => 1 );
+has transport =>
+  ( is => 'rw', isa => 'Str', required => 0, default => 'TCPIP' );
+has encryption =>
+  ( is => 'rw', isa => 'Str', required => 0, default => 'none' );
+has compression =>
+  ( is => 'rw', isa => 'Str', required => 0, default => 'none' );
 
 has connected => (
     is       => 'rw',
@@ -52,7 +56,10 @@ sub get_conn_str {
     if ( defined( $self->get_lang() ) ) {
 
         return
-            'host="siebel.TCPIP.None.None://'
+            'host="siebel.'
+          . $self->get_transport() . '.'
+          . $self->get_encryption() . '.'
+          . $self->get_compression() . '://'
           . $self->get_host() . '/'
           . $self->get_enterprise() . '/'
           . $self->get_aom()
@@ -63,11 +70,14 @@ sub get_conn_str {
     else {
 
         return
-            'host="siebel.TCPIP.None.None://'
+            'host="siebel.'
+          . $self->get_transport() . '.'
+          . $self->get_encryption() . '.'
+          . $self->get_compression() . '://'
           . $self->get_host() . '/'
           . $self->get_enterprise() . '/'
           . $self->get_enterprise() . '/'
-          . $self->get_aom();
+          . $self->get_aom() . '"';
 
     }
 
@@ -85,13 +95,23 @@ override 'login' => sub {
 
 };
 
+sub logoff {
+
+    my $self = shift;
+
+    $self->get_ole()->Logoff();
+
+    $self->set_connected(0);
+
+}
+
 sub DEMOLISH {
 
     my $self = shift;
 
     if ( $self->is_connected() ) {
 
-        $self->get_ole()->Logoff();
+        $self->logoff();
 
     }
 

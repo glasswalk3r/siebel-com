@@ -1,8 +1,6 @@
 package Siebel::COM;
 
 use 5.010;
-use strict;
-use warnings;
 use Moose::Role;
 
 our $VERSION = 0.1;
@@ -11,7 +9,8 @@ has '_ole' => (
     is     => 'ro',
     isa    => 'Win32::OLE',
     reader => 'get_ole',
-    writer => '_set_ole'
+    writer => '_set_ole', 
+	required => 1
 );
 
 1;

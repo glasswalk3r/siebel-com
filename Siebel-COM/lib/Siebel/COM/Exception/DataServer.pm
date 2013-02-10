@@ -1,8 +1,6 @@
 package Siebel::COM::Exception::DataServer;
 
 use 5.010;
-use strict;
-use warnings;
 use feature 'say';
 use Win32::OLE::Variant;
 use Moose::Role;
