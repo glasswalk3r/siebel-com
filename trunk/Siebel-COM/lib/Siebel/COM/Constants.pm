@@ -5,10 +5,19 @@ use strict;
 use warnings;
 use Exporter 'import';
 
-our @EXPORT = qw(FORWARD_ONLY FORWARD_BACKWARD);
+our @EXPORT =
+  qw(FORWARD_ONLY FORWARD_BACKWARD SALES_REP_VIEW MANAGER_VIEW PERSONAL_VIEW ALL_VIEW ORG_VIEW BGROUP_VIEW CATALOG_VIEW SUB_ORG_VIEW);
 
 use constant FORWARD_BACKWARD => 256;
 use constant FORWARD_ONLY     => 257;
+use constant SALES_REP_VIEW   => 0;
+use constant MANAGER_VIEW     => 1;
+use constant PERSONAL_VIEW    => 2;
+use constant ALL_VIEW         => 3;
+use constant ORG_VIEW         => 5;
+use constant GROUP_VIEW       => 7;
+use constant CATALOG_VIEW     => 8;
+use constant SUB_ORG_VIEW     => 9;
 
 1;
 __END__
@@ -21,7 +30,7 @@ Siebel::COM::Constants - export Siebel constants to use
 =head1 SYNOPSIS
 
   use Siebel::COM::Constants;
-    sub query {
+  sub query {
 
       my $self        = shift;
       my $cursor_type = shift;    # optional parameter
@@ -35,7 +44,8 @@ Siebel::COM::Constants - export Siebel constants to use
   }
 
 =head1 DESCRIPTION
-This module exports constants to be used by all other modules related to L<Siebel::COM>.
+
+This module exports constants to be used by all other modules related to L<Siebel::COM>.
 
 =head2 EXPORT
 
@@ -43,15 +53,39 @@ The constants below are exported by default:
 
 =over
 
-=item Search Methods
+=item Search mode functions
 
 =over
 
 =item FORWARD_ONLY
 
 =item FORWARD_BACKWARD
-=back
-=back
+
+=back
+
+=item View mode functions
+
+=over
+
+=item SALES_REP_VIEW
+
+=item MANAGER_VIEW
+
+=item PERSONAL_VIEW
+
+=item ALL_VIEW
+
+=item ORG_VIEW
+
+=item GROUP_VIEW
+
+=item CATALOG_VIEW
+
+=item SUB_ORG_VIEW
+
+=back
+
+=back
 
 =head1 SEE ALSO
 
@@ -60,7 +94,8 @@ The constants below are exported by default:
 =item http://docs.oracle.com/cd/E14004_01/books/OIRef/OIRef_Using_Siebel_VB_and_Siebel_eScript4.html#wp1049587
 
 Oficial documentation about the constants and their values
-=back
+
+=back
 
 =head1 AUTHOR
 

@@ -1,8 +1,6 @@
 package Siebel::COM::Business::Object;
 
 use 5.010;
-use strict;
-use warnings;
 use Moose;
 use Siebel::COM::Business::Component;
 

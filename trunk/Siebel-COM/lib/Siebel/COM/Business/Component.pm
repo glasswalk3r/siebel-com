@@ -1,11 +1,8 @@
 package Siebel::COM::Business::Component;
 
 use 5.010;
-use strict;
-use warnings;
 use Moose;
 use Siebel::COM::Constants;
-use TryCatch;
 
 extends 'Siebel::COM::Business';
 
@@ -72,8 +69,7 @@ sub first_record {
 
     my $self = shift;
 
-    my $boolean = $self->get_ole()->FirstRecord(@_);
-    return $boolean;
+    return $self->get_ole()->FirstRecord(@_);
 
 }
 
@@ -81,8 +77,7 @@ sub next_record {
 
     my $self = shift;
 
-    my $boolean = $self->get_ole()->NextRecord(@_);
-    return $boolean;
+    return $self->get_ole()->NextRecord(@_);
 
 }
 
@@ -106,7 +101,7 @@ sub set_view_mode {
 
 	my $self = shift;
 
-	push(@_, 3) unless(@_);
+	push(@_, ALL_VIEW) unless(@_);
 
 	$self->get_ole()->SetViewMode(@_);
 

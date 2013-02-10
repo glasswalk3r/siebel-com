@@ -1,8 +1,6 @@
 package Siebel::COM::Business;
 
 use 5.010;
-use strict;
-use warnings;
 use Win32::OLE;
 use Moose;
 use MooseX::FollowPBP;
