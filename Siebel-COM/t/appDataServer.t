@@ -1,4 +1,4 @@
 use lib 't';
-use Test::App;
+use Test::App::DataServer;
 
 Test::Class->runtests;

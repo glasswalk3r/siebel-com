@@ -10,7 +10,8 @@ WriteMakefile(
         Moose                  => 2.0603,
         'Win32::OLE'           => 0.1709,
         'MooseX::FollowPBP'    => 0.05,
-        'namespace::autoclean' => 0.13
+        'namespace::autoclean' => 0.13,
+        'Devel::AssertOS'      => 1.71
     },
     BUILD_REQUIRES => {
         'Test::Exception'     => 0.27,

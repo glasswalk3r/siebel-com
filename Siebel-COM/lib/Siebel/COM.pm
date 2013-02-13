@@ -2,6 +2,7 @@ package Siebel::COM;
 
 use 5.010;
 use Moose::Role;
+use Devel::AssertOS qw(MSWin32);
 
 our $VERSION = 0.1;
 

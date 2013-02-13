@@ -2,6 +2,7 @@ package Siebel::COM::Business::Component::DataServer;
 
 use 5.010;
 use Moose;
+use Siebel::COM::Constants;
 
 extends 'Siebel::COM::Business::Component';
 with 'Siebel::COM::Exception::DataServer';
