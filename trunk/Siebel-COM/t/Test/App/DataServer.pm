@@ -1,10 +1,10 @@
-package Test::App;
-use base qw(Test::Class);
+package Test::App::DataServer;
+use base qw(Test::App);
 use Test::Most;
 use Test::Moose;
-use Siebel::COM::App;
+use Siebel::COM::App::DataServer;
 
-sub class { 'Siebel::COM::App' }
+sub class { 'Siebel::COM::App::DataServer' }
 sub role  { 'Siebel::COM' }
 
 sub startup : Tests(startup => 1) {
@@ -13,14 +13,13 @@ sub startup : Tests(startup => 1) {
     use_ok $test->class();
 }
 
-sub attributes : Test(4) {
+sub attributes : Test(3) {
 
     my $self = shift;
 
-    has_attribute_ok( $self->class(), 'user' );
-    has_attribute_ok( $self->class(), 'password' );
     has_attribute_ok( $self->class(), 'ole_class' );
-    has_attribute_ok( $self->class(), '_ole' );
+    has_attribute_ok( $self->class(), 'data_source' );
+    has_attribute_ok( $self->class(), 'cfg' );
 
 }
 
@@ -34,9 +33,9 @@ sub roles : Test(1) {
 
 sub can_methods : Test(1) {
 
-    my $self = shift;
+	my $self = shift;
 
-    can_ok( $self->class(), qw(login get_bus_object get_last_error) );
+	can_ok($self->class(), qw(_error get_return_code get_app_def load_objects));
 
 }
 
