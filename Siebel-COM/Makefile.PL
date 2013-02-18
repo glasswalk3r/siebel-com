@@ -1,6 +1,30 @@
 use 5.010;
 use ExtUtils::MakeMaker;
 
+eval {
+
+    require Win32::OLE;
+
+};
+
+unless ($@) {
+
+    my $siebel_app  = 'SiebelDataControl.SiebelDataControl.1';
+    my $siebel_app2 = 'SiebelDataServer.ApplicationObject';
+
+    my $return  = Win32::OLE->new($siebel_app);
+    my $return2 = Win32::OLE->new($siebel_app2);
+
+    unless ( $return and $return2 ) {
+
+        warn
+"Could not load $siebel_app and/or $siebel_app2, Siebel::COM will not work with these conditions and thus cannot be tested";
+        exit(0);
+
+    }
+
+}
+
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 WriteMakefile(
@@ -11,9 +35,9 @@ WriteMakefile(
         'Win32::OLE'           => 0.1709,
         'MooseX::FollowPBP'    => 0.05,
         'namespace::autoclean' => 0.13,
-        'Devel::AssertOS'      => 1.71
+        'Devel::AssertOS'      => 1.21
     },
-    BUILD_REQUIRES => {
+    TEST_REQUIRES => {
         'Test::Exception'     => 0.27,
         'Test::Most'          => 0.25,
         'Test::Pod'           => 1.22,
