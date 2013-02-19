@@ -34,53 +34,78 @@ sub _build_variant {
 1;
 
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
-Siebel::COM - Perl extension for blah blah blah
+Siebel::COM::Exception::DataServer - Moose role to apply proper error checking for Siebel COM DataServer
 
 =head1 SYNOPSIS
 
-  use Siebel::COM;
-  blah blah blah
+  use Moose;
+  
+  with 'Siebel::COM::Exception::DataServer';
 
 =head1 DESCRIPTION
 
-Stub documentation for Siebel::COM, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
+This is a Moose Role to implement proper error checking for classes based on Siebel COM DataServer.
 
 =head2 EXPORT
 
 None by default.
 
+=head2 ATTRIBUTES
 
+=head3 return_code
+
+An reference to a L<Win32::OLE::Variant> object. It is used check and maintain return codes for almost all method invocation done
+by classes that uses Siebel::COM::Exception::DataServer.
+
+=head2 METHODS
+
+=head3 get_return_code
+
+Returns the C<return_code> attribute value.
+
+=head3 check_error
+
+Checks the attribute value of C<return_code> attribute. If it is different from zero, an exception will be raised with C<die>.
+
+The message used by C<die> will contain the C<return_code> value plus the error message associated.
 
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
+=over
 
-If you have a mailing list set up for your module, mention it here.
+=item *
 
-If you have a web site set up for your module, mention it here.
+L<Win32::OLE::Variant>
+
+=item *
+
+L<Siebel::COM::App::DataServer>
+
+=back
 
 =head1 AUTHOR
 
-A. U. Thor, E<lt>a.u.thor@a.galaxy.far.far.awayE<gt>
+Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by A. U. Thor
+This software is copyright (c) 2013 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.16.1 or,
-at your option, any later version of Perl 5 you may have available.
+This file is part of Siebel COM project.
 
+Siebel COM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-=cut
+Siebel COM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Siebel COM.  If not, see <http://www.gnu.org/licenses/>.
+

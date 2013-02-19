@@ -111,53 +111,139 @@ __PACKAGE__->meta->make_immutable;
 
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
-Siebel::COM - Perl extension for blah blah blah
+Siebel::COM::Business:Component - Perl class to represent a Siebel COM Business Component
 
 =head1 SYNOPSIS
 
-  use Siebel::COM;
-  blah blah blah
+  sub get_bus_comp {
+
+      my $self    = shift;
+      my $bc_name = shift;
+
+      my $bc = Siebel::COM::Business::Component->new(
+          { '_ole' => $self->get_ole()->GetBusComp($bc_name) } );
+
+      return $bc;
+
+  }
 
 =head1 DESCRIPTION
 
-Stub documentation for Siebel::COM, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
+Siebel::COM::Business::Component is the related class to Siebel Business Component classes.
 
-Blah blah blah.
+Commom usage of this class is indirect since the object is recovered from a L<Siebel::COM::Business::Object> instance (see C<get_bus_comp> method
+from it).
+
+=head2 ATTRIBUTES
+
+None besides the defined by the role L<Siebel::COM>.
+
+=head2 METHODS
+
+The methods listed below have exactly the same interface than those of Siebel COM API for Business Components:
+
+=over
+
+=item * 
+
+activate_field = ActivateField
+
+=item *
+
+get_field_value = GetFieldValue
+
+=item *
+
+clear_query = ClearToQuery
+
+=item *
+
+set_search_exp = SetSearchExpr
+
+=item *
+
+set_search_spec = SetSearchSpec
+
+=item *
+
+get_search_spec = GetSearchSpec
+
+=item *
+
+first_record = FirstRecord
+
+=item *
+
+next_record = NextRecord
+
+=item *
+
+set_field_value = SetFieldValue
+
+=item *
+
+write_record = WriteRecord
+
+=back
+
+The following methods have some interface differences from their Siebel COM counterparts:
+
+=head3 query
+
+Same thing as ExecuteQuery from Siebel COM API but it defined as default FORWARD_ONLY constant for cursor mode. It accepts a different value
+for cursor mode although (must probably FORWARD_BACKWARD would be the choice for it).
+
+=head3 set_view_mode
+
+Same thing as SetViewMode from Siebel COM API but it defined as default ALL_VIEW constant for view mode. It accepts a different value
+for it as defined by L<Siebel::COM::Constants>.
 
 =head2 EXPORT
 
 None by default.
 
-
-
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
+=over
 
-If you have a mailing list set up for your module, mention it here.
+=item *
 
-If you have a web site set up for your module, mention it here.
+L<Siebel::COM>
+
+=item *
+
+L<Siebel::COM::Constants>
+
+=item *
+
+L<Siebel::COM::Business>
+
+=back
 
 =head1 AUTHOR
 
-A. U. Thor, E<lt>a.u.thor@a.galaxy.far.far.awayE<gt>
+Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by A. U. Thor
+This software is copyright (c) 2013 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.16.1 or,
-at your option, any later version of Perl 5 you may have available.
+This file is part of Siebel COM project.
 
+Siebel COM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Siebel COM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Siebel COM.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
