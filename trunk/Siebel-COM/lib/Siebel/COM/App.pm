@@ -57,53 +57,113 @@ sub get_last_error {
 
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
-Siebel::COM - Perl extension for blah blah blah
+Siebel::COM::App - Perl extension to connect to a Siebel application
 
 =head1 SYNOPSIS
 
-  use Siebel::COM;
-  blah blah blah
+  package Siebel::COM::App::DataServer;
+
+  use Moose;
+  use namespace::autoclean;
+
+  extends 'Siebel::COM::App';
 
 =head1 DESCRIPTION
 
-Stub documentation for Siebel::COM, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
+Siebel::COM::App is a superclass and cannot be used directly: a subclass is required since it does not provide any connection at all to a Siebel
+environment.
 
-Blah blah blah.
+As a superclass,  Siebel::COM::App provides:
+
+=over
+
+=item *
+
+proper initialization of subclasses, including default exceptions from L<Win32::OLE>.
+
+=item *
+
+the attributes described in the section ATTRIBUTES.
+
+=item *
+
+the methods described in the section METHODS.
+
+=back
 
 =head2 EXPORT
 
 None by default.
 
+=head2 ATTRIBUTES
 
+All attributes below are required during object creation.
+
+=head3 user
+
+The user login that will be used for authentication when C<login> method is invoked.
+
+=head3 password
+
+The user password that will be used for authentication when C<login> method is invoked.
+
+=head3 ole_class
+
+The class that should be loaded by L<Win32::OLE>. Beware that the class must be registered correctly to be used.
+
+=head2 METHODS
+
+=head3 login
+
+Login does, uhn, login at a Siebel application. It expects does not expect any parameter and returns true with success or an exception is raised.
+
+=head3 get_bus_object
+
+Returns a L<Siebel::COM::Business::Object> object (or a subclass of it): expects a Business Object name as a parameter and an exception is raised if the
+Business Object definition cannot be found in the SRF.
+
+=head3 get_last_error
+
+Returns the last error message retrieved, including the error message code and message.
 
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
+=over
 
-If you have a mailing list set up for your module, mention it here.
+=item *
 
-If you have a web site set up for your module, mention it here.
+L<Siebel::COM::App::DataServer>
+
+=item *
+
+L<Siebel::COM::App::DataControl>
+
+=back
 
 =head1 AUTHOR
 
-A. U. Thor, E<lt>a.u.thor@a.galaxy.far.far.awayE<gt>
+Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by A. U. Thor
+This software is copyright (c) 2012 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.16.1 or,
-at your option, any later version of Perl 5 you may have available.
+This file is part of Siebel COM project.
 
+Siebel COM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Siebel COM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Siebel COM.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut

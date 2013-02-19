@@ -17,53 +17,96 @@ has '_ole' => (
 1;
 
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
-Siebel::COM - Perl extension for blah blah blah
+Siebel::COM - Perl extension to access Siebel application through Microsoft COM 
 
 =head1 SYNOPSIS
 
-  use Siebel::COM;
-  blah blah blah
+  package Siebel::COM::App;
+
+  use Moose;
+  use namespace::autoclean;
+
+  with 'Siebel::COM';
+
+  sub BUILD {
+
+      my $self = shift;
+
+      my $app = Win32::OLE->new( $self->get_ole_class() )
+        or confess( 'failed to load ' . $self->get_ole_class() . ': ' . $! );
+
+      $self->_set_ole($app);
+
+  }
 
 =head1 DESCRIPTION
 
-Stub documentation for Siebel::COM, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
+Siebel::COM was developed to make it easier to use Microsoft COM to access a Siebel application, 
+either a Siebel Enterprise or a Siebel Client, without having to go down the details of L<Win32::OLE>.
 
-Blah blah blah.
+Inspiration for this distribution came from the article (L<http://jbrazile.blogspot.com.br/2008/03/siebel-com-programming-with-perl.html>) wrote by
+Jason Brazile and the despicable information in the documentation (L<http://docs.oracle.com/cd/E14004_01/books/OIRef/OIRef_About_Object_Interfaces_and_Programming_Environment6.html#wp1026164>) 
+of Oracle saying that Perl cannot be used to connected to Siebel with COM.
+
+Siebel::COM should be used directly only for maintenance or extensions since it is a L<Moose> role. You probably want to look for subclasses of
+L<Siebel::COM::App> to start connecting to a Siebel environment.
+
+This roles provides the C<_ole> attribute, with the accessors C<get_ole> and the "private" C<_set_ole>, which holds a reference to the L<Win32::OLE>
+object that is used to really provide functionality from Siebel DLL's.
 
 =head2 EXPORT
 
 None by default.
 
+=head1 CAVEATS
 
+A known issue is that this distribution only works with Microsoft Windows OS (which should be garanteed by L<Devel::AssertOS>).
+
+Having a full Siebel Client setup in the OS is also required. It is also known that Siebel COM is not supported in 64 bits systems due
+incompability of the required Siebel DLLs.
 
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
+=over
 
-If you have a mailing list set up for your module, mention it here.
+=item *
 
-If you have a web site set up for your module, mention it here.
+L<Siebel::COM::App::DataServer>
+
+=item *
+
+L<Siebel::COM::App::DataControl>
+
+=item *
+
+Project website: L<https://code.google.com/p/siebel-com/>
+
+=back
 
 =head1 AUTHOR
 
-A. U. Thor, E<lt>a.u.thor@a.galaxy.far.far.awayE<gt>
+Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by A. U. Thor
+This software is copyright (c) 2012 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.16.1 or,
-at your option, any later version of Perl 5 you may have available.
+This file is part of Siebel COM project.
 
+Siebel COM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Siebel COM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Siebel COM.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut

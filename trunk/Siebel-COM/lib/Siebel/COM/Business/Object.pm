@@ -20,53 +20,72 @@ sub get_bus_comp {
 
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
-Siebel::COM - Perl extension for blah blah blah
+Siebel::COM::Business::Object - Perl extension for Siebel COM Business Object objects
 
 =head1 SYNOPSIS
 
-  use Siebel::COM;
-  blah blah blah
+  sub get_bus_object {
+
+      my $self    = shift;
+      my $bo_name = shift;
+
+      my $bo = Siebel::COM::Business::Object->new(
+          { '_ole' => $self->get_ole()->GetBusObject($bo_name) } );
+
+      return $bo;
+
+  }
 
 =head1 DESCRIPTION
 
-Stub documentation for Siebel::COM, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
+Siebel::COM::Business::Object represents a Siebel COM Business Object class, but more "perlish".
 
-Blah blah blah.
+You probably don't need to use this class directly. Instead, retrieve a instance of it from a instance of L<Siebel::COM::App> subclass.
+
+This class extends L<Siebel::COM::Business>.
 
 =head2 EXPORT
 
 None by default.
 
-
-
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
+=over
 
-If you have a mailing list set up for your module, mention it here.
+=item *
 
-If you have a web site set up for your module, mention it here.
+L<Siebel::COM::App>
+
+=item *
+
+L<Siebel::COM::Business>
+
+=back
 
 =head1 AUTHOR
 
-A. U. Thor, E<lt>a.u.thor@a.galaxy.far.far.awayE<gt>
+Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by A. U. Thor
+This software is copyright (c) 2013 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.16.1 or,
-at your option, any later version of Perl 5 you may have available.
+This file is part of Siebel COM project.
 
+Siebel COM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Siebel COM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Siebel COM.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
