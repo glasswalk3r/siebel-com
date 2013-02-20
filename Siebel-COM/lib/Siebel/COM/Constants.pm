@@ -6,7 +6,7 @@ use warnings;
 use Exporter 'import';
 
 our @EXPORT =
-  qw(FORWARD_ONLY FORWARD_BACKWARD SALES_REP_VIEW MANAGER_VIEW PERSONAL_VIEW ALL_VIEW ORG_VIEW BGROUP_VIEW CATALOG_VIEW SUB_ORG_VIEW);
+  qw(FORWARD_ONLY FORWARD_BACKWARD SALES_REP_VIEW MANAGER_VIEW PERSONAL_VIEW ALL_VIEW ORG_VIEW BGROUP_VIEW CATALOG_VIEW SUB_ORG_VIEW GROUP_VIEW);
 
 use constant FORWARD_BACKWARD => 256;
 use constant FORWARD_ONLY     => 257;
@@ -91,9 +91,9 @@ The constants below are exported by default:
 
 =over
 
-=item http://docs.oracle.com/cd/E14004_01/books/OIRef/OIRef_Using_Siebel_VB_and_Siebel_eScript4.html#wp1049587
+=item Oficial documentation about the constants and their values
 
-Oficial documentation about the constants and their values
+L<http://docs.oracle.com/cd/E14004_01/books/OIRef/OIRef_Using_Siebel_VB_and_Siebel_eScript4.html#wp1049587>
 
 =back
 
