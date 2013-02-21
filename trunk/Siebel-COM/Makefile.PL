@@ -37,7 +37,7 @@ WriteMakefile(
         'namespace::autoclean' => 0.13,
         'Devel::AssertOS'      => 1.21
     },
-    TEST_REQUIRES => {
+    BUILD_REQUIRES => {
         'Test::Exception'     => 0.27,
         'Test::Most'          => 0.25,
         'Test::Pod'           => 1.22,
