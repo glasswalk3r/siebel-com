@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Siebel-COM is also available at CPAN. You can get the documentation of with from the Perldoc generated from the packages.
+Siebel-COM is also available at [http://search.cpan.org CPAN]. You can get the documentation of with from the Perldoc generated from the packages.
 
 = Details =
 
