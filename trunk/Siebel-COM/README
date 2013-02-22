@@ -1,16 +1,22 @@
 Siebel-COM version 0.01
 =======================
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+Siebel-COM was developed to make it easier to use Microsoft COM to access a Siebel application, 
+either a Siebel Enterprise or a Siebel Client, without having to go down the details of Win32::OLE.
 
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+Inspiration for this distribution came from the article 
+
+http://jbrazile.blogspot.com.br/2008/03/siebel-com-programming-with-perl.html 
+
+wrote by Jason Brazile and the despicable information in the documentation 
+
+http://docs.oracle.com/cd/E14004_01/books/OIRef/OIRef_About_Object_Interfaces_and_Programming_Environment6.html#wp1026164
+
+of Oracle saying that Perl cannot be used to connected to Siebel with COM.
+
+Visit the project website to have more information:
+
+https://code.google.com/p/siebel-com/
 
 INSTALLATION
 
@@ -25,16 +31,33 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  blah blah blah
+   Moose >= 2.0603
+   Win32::OLE >= 0.1709
+   MooseX::FollowPBP >= 0.05
+   namespace::autoclean >= 0.13
+   Devel::AssertOS >= 1.21
+   Test::Exception >= 0.27
+   Test::Most >= 0.25
+   Test::Pod >= 1.22
+   Test::Pod::Coverage >= 1.08
+   Test::Class >= 0.36
 
 COPYRIGHT AND LICENCE
 
-Put the correct copyright and licence information here.
+This software is copyright (c) 2013 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
 
-Copyright (C) 2013 by A. U. Thor
+This file is part of Siebel COM project.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.16.1 or,
-at your option, any later version of Perl 5 you may have available.
+Siebel COM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
+Siebel COM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Siebel COM.  If not, see <http://www.gnu.org/licenses/>.
 
