@@ -29,7 +29,7 @@ Here is an example of updating accounts in Siebel with Siebel::App::!DataControl
           host       => 'foobar',
           enterprise => 'SIEBEL',
           lang       => 'ENU',
-          aom        => 'eCommunicationsObjMgr_enu'
+          aom        => 'eFoobarObjMgr_enu'
       }
   );
 
