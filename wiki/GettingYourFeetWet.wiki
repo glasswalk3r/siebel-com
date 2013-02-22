@@ -6,7 +6,7 @@ Siebel-COM is also available at [http://search.cpan.org CPAN]. You can get the d
 
 = Details =
 
-Here is an example of updating accounts in Siebel with Siebel::App::DataControl:
+Here is an example of updating accounts in Siebel with Siebel::App::!DataControl:
 
 {{{
   use feature 'say';
