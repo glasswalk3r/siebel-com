@@ -1,5 +1,3 @@
-#summary Introduction to Siebel-COM
-
 = Introduction =
 
 Siebel-COM is an Perl API to add "syntax sugar" to connect to a Siebel application. By using classes created with [http://search.cpan.org/perldoc?Moose Moose] (and internally [http://search.cpan.org/perldoc?Win32::OLE Win32::OLE]) you can access Siebel without having to go down the details of using Siebel COM (Data Server and/or Data Control) and COM concepts.
