@@ -1,4 +1,4 @@
-#summary Introduction about Siebel-COM
+#summary Introduction to Siebel-COM
 
 = Introduction =
 
