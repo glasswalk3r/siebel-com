@@ -84,3 +84,82 @@ Here is an example of updating accounts in Siebel with Siebel::App::!DataControl
 
   }
 }}}
+
+Do you want to change that to Siebel COM Data Server? No problem. Just replace the object with Siebel::COM::!DataServer:
+
+{{{
+  use feature 'say';
+  use Siebel::COM::App::DataControl;
+  use TryCatch;
+
+  my $input_file = shift;
+  chomp($input_file);
+
+  open( my $input, '<', $input_file ) or die "Cannot read $input_file: $!\n";
+  my @lines = <$input>;
+  close($input);
+
+  my $app = Siebel::COM::App::DataServer->new(
+      {
+          user       => 'sadmin',
+          password   => 'sadmin',
+          cfg         => 'C:\Siebel\8.1\Client\BIN\ptb\scomm.cfg',
+          data_source => 'ServerDataSrc'
+      }
+  );
+
+  try {
+
+      $app->login();
+
+      my $bo = $app->get_bus_object('Account');
+      my $bc = $bo->get_bus_comp('Account');
+
+      $bc->activate_field('Location');
+      $bc->activate_field('Extension Phone Number');
+
+      foreach my $loc (@lines) {
+
+          chomp($loc);
+
+          $bc->clear_query();
+          $bc->set_view_mode();
+
+          $bc->set_search_spec( 'Location', "='$loc'" );
+          $bc->query();
+
+          if ( $bc->first_record() ) {
+
+              do {
+
+                  my $val = $bc->get_field_value('Location');
+  
+                  if ( defined($val) ) {
+
+                      $bc->set_field_value( 'Extension Phone Number', '' );
+                      $bc->write_record();
+
+                  }
+
+                  say 'updated';
+
+              } while ( $bc->next_record() )
+
+          }
+          else {
+
+              say 'Could not find the account';
+
+          }
+
+      }
+
+  }
+  catch {
+
+      die 'Exception: ' . $app->get_last_error();
+
+  }
+}}}
+
+[http://search.cpan.org/perldoc?TryCatch TryCatch] module is not part of Siebel-COM distribution, but it is a nice thing to use with it. Grab it from [http://search.cpan.org CPAN].
