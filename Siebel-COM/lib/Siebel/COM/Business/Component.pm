@@ -40,17 +40,17 @@ sub set_search_expr {
 
 sub set_search_spec {
 
-	my $self = shift;
+    my $self = shift;
 
-	$self->get_ole()->SetSearchSpec(@_);
+    $self->get_ole()->SetSearchSpec(@_);
 
 }
 
 sub get_search_spec {
 
-	my $self = shift;
+    my $self = shift;
 
-	$self->get_ole()->GetSearchSpec(@_);
+    $self->get_ole()->GetSearchSpec(@_);
 
 }
 
@@ -99,11 +99,21 @@ sub write_record {
 
 sub set_view_mode {
 
-	my $self = shift;
+    my $self = shift;
 
-	push(@_, ALL_VIEW) unless(@_);
+    push( @_, ALL_VIEW ) unless (@_);
 
-	$self->get_ole()->SetViewMode(@_);
+    $self->get_ole()->SetViewMode(@_);
+
+}
+
+sub invoke_method {
+
+    my $self        = shift;
+    my $method_name = shift;
+    my $args        = shift;    # array reference
+
+    $self->get_ole()->InvokeMethod( join( ', ', $method_name, @{$args} ) );
 
 }
 
