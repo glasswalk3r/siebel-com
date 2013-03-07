@@ -7,12 +7,29 @@ use Devel::AssertOS qw(MSWin32);
 our $VERSION = 0.1;
 
 has '_ole' => (
-    is     => 'ro',
-    isa    => 'Win32::OLE',
-    reader => 'get_ole',
-    writer => '_set_ole', 
-	required => 1
+    is       => 'ro',
+    isa      => 'Win32::OLE',
+    reader   => 'get_ole',
+    writer   => '_set_ole',
+    required => 0
 );
+
+sub get_ole {
+
+    my $self = shift;
+
+    if ( $self->{_ole} ) {
+
+        return $self->{_ole};
+
+    }
+    else {
+
+        die '_ole attribute must be setup during object creation';
+
+    }
+
+}
 
 1;
 
