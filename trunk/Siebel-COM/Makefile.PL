@@ -34,11 +34,9 @@ WriteMakefile(
         Moose                  => 2.0603,
         'Win32::OLE'           => 0.1709,
         'MooseX::FollowPBP'    => 0.05,
-        'namespace::autoclean' => 0.13,
-        'Devel::AssertOS'      => 1.21
+        'namespace::autoclean' => 0.13
     },
     BUILD_REQUIRES => {
-        'Test::Exception'     => 0.27,
         'Test::Most'          => 0.25,
         'Test::Pod'           => 1.22,
         'Test::Pod::Coverage' => 1.08,
