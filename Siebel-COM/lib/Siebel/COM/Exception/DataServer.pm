@@ -19,7 +19,7 @@ sub check_error {
     unless ( $self->get_return_code() == 0 ) {
 
         my $msg = Win32::OLE->LastError();
-        die 'The method returned an exception: $msg';
+        die "The method returned an exception: $msg";
 
     }
 
