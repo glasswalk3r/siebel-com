@@ -24,7 +24,16 @@ sub die_unsupported {
 
     my $os = shift;
 
-    die("OS unsupported: $os\n");
+    if ( defined($os) ) {
+
+        die("OS unsupported: $os\n");
+
+    }
+    else {
+
+        die('OS unsupported: undefined');
+
+    }
 
 }
 
