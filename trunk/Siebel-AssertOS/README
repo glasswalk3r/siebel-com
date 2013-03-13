@@ -1,4 +1,4 @@
-Siebel-AssertOS version 0.01
+Siebel-AssertOS version 0.02
 ============================
 
 This modules will help identifying if the current OS that is running is supported by Siebel applications. If not, the module will cause an exception, 
@@ -19,9 +19,7 @@ To install this module type the following:
 
 DEPENDENCIES
 
-This module requires these other modules and libraries:
-
-    Devel::CheckOS, minimum version 1.71
+None.
 
 COPYRIGHT AND LICENCE
 
@@ -41,3 +39,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Siebel COM.  If not, see http://www.gnu.org/licenses/.
+

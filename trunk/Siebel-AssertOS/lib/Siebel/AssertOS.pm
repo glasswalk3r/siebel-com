@@ -1,9 +1,49 @@
 package Siebel::AssertOS;
 
 use 5.010;
-use Devel::AssertOS qw(MSWin32 aix solaris hpux linux);
+use feature 'switch';
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
+
+sub import {
+
+    shift;
+
+    die_if_os_isnt();
+}
+
+sub die_if_os_isnt {
+
+    my $os = shift || $^O;
+
+    os_is($os) ? 1 : die_unsupported();
+
+}
+
+sub die_unsupported {
+
+    my $os = shift;
+
+    die("OS unsupported: $os\n");
+
+}
+
+sub os_is {
+
+    my $os = shift;
+
+    given ($os) {
+
+        when ('linux')   { return 1 }
+        when ('MSWin32') { return 1 }
+        when ('aix')     { return 1 }
+        when ('solaris') { return 1 }
+        when ('hpux')    { return 1 }
+        default          { return 0 }
+
+    }
+
+}
 
 1;
 
@@ -25,11 +65,34 @@ forcing the code to stop being executed.
 
 This is particulary useful for automated tests.
 
-The list of supported OS is as defined by Oracle documentation regarding Siebel 8.2 and the list of OS from L<Devel::CheckOS> distribution.
+The list of supported OS is as defined by Oracle documentation regarding Siebel 8.2 and the list of OS from L<Devel::CheckOS> distribution. Actually, 
+Siebel::AssertOS is based on L<Devel::CheckOS>, borrowing code from it, but does not depend on it.
 
 =head2 EXPORT
 
-None by default.
+None, but the functions below can be used by calling them with the complete package name (Siebel::AssertOS::<function>).
+
+=head3 die_if_os_isnt
+
+Expects an optional string parameter with the operational system name. If not given, it will assume $^O as default.
+
+It will execute C<os_is> with the operational system name, calling C<die_unsuported> if the return value from C<os_is> is false.
+
+Beware that the given parameter must follow the same provided by $^O, including case and format.
+
+C<die_if_os_isnt> is called by default when the module is imported to another package.
+
+=head3 die_unsupported
+
+Expects a string as parameter.
+
+Will execute C<die> with a message telling that the parameter is not supported.
+
+=head3 os_is
+
+Expects a string as parameter, being the string the OS name.
+
+Returns true or false depending on the give value. The string is restricted by those return by $^O special variable.
 
 =head1 CAVEATS
 
