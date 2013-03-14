@@ -45,6 +45,12 @@ This class also applies the role L<Siebel::COM::Exception::DataServer>.
 
 None by default.
 
+=head2 METHODS
+
+=head3 get_bus_comp
+
+Same thing then parent class C<get_bus_comp> method, but with added error checking without any change to the interface.
+
 =head1 SEE ALSO
 
 =over

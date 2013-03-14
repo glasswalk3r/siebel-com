@@ -51,6 +51,12 @@ This class extends L<Siebel::COM::Business>.
 
 None by default.
 
+=head2 METHODS
+
+=head3 get_bus_comp
+
+Same thing as GetBusComp method from Siebel API, but it returns a L<Siebel::COM::Business::Comp> object.
+
 =head1 SEE ALSO
 
 =over

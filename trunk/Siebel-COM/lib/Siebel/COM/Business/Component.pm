@@ -12,6 +12,9 @@ sub activate_field {
 
     $self->get_ole()->ActivateField(@_);
 
+	# to make it easier for testing, Siebel API doesn't return anything
+	return 1;
+
 }
 
 sub get_field_value {
@@ -28,6 +31,9 @@ sub clear_query {
 
     $self->get_ole()->ClearToQuery(@_);
 
+	# to make it easier for testing, Siebel API doesn't return anything
+	return 1;
+
 }
 
 sub set_search_expr {
@@ -43,6 +49,8 @@ sub set_search_spec {
     my $self = shift;
 
     $self->get_ole()->SetSearchSpec(@_);
+	# to make it easier for testing, Siebel API doesn't return anything
+	return 1;
 
 }
 
@@ -86,6 +94,8 @@ sub set_field_value {
     my $self = shift;
 
     $self->get_ole()->SetFieldValue(@_);
+	# to make it easier for testing, Siebel API doesn't return anything
+	return 1;
 
 }
 
@@ -94,6 +104,9 @@ sub write_record {
     my $self = shift;
 
     $self->get_ole()->WriteRecord(@_);
+
+	# to make it easier for testing, Siebel API doesn't return anything
+	return 1;
 
 }
 
@@ -104,6 +117,9 @@ sub set_view_mode {
     push( @_, ALL_VIEW ) unless (@_);
 
     $self->get_ole()->SetViewMode(@_);
+
+	# to make it easier for testing, Siebel API doesn't return anything
+	return 1;
 
 }
 
@@ -155,49 +171,53 @@ None besides the defined by the role L<Siebel::COM>.
 
 The methods listed below have exactly the same interface than those of Siebel COM API for Business Components:
 
-=over
+=head3 activate_field 
 
-=item * 
+Equal to ActivateField method, but also returns true if successful.
 
-activate_field = ActivateField
+=head3 get_field_value 
 
-=item *
+Equal to GetFieldValue method.
 
-get_field_value = GetFieldValue
+=head3 clear_query
 
-=item *
+Equal to ClearToQuery method, but also returns true if successful.
 
-clear_query = ClearToQuery
+=head3 set_search_exp
 
-=item *
+Equal to SetSearchExpr method.
 
-set_search_exp = SetSearchExpr
+=head3 set_search_spec
 
-=item *
+Equalt to SetSearchSpec method, but also returns true if successful.
 
-set_search_spec = SetSearchSpec
+=head3 get_search_spec
 
-=item *
+Equal to GetSearchSpec method.
 
-get_search_spec = GetSearchSpec
+=head3 first_record
 
-=item *
+Equal to FirstRecord method.
 
-first_record = FirstRecord
+=head3 next_record
 
-=item *
+Equal to NextRecord method.
 
-next_record = NextRecord
+=head3 set_field_value
 
-=item *
+Equal to SetFieldValue method, but also returns true if successful.
 
-set_field_value = SetFieldValue
+=head3 write_record
 
-=item *
+Equal to WriteRecord method, but also returns true if successful.
 
-write_record = WriteRecord
+=head3 set_search_expr
 
-=back
+Equal to SetSearchExpr method.
+
+=head3 invoke_method
+
+Equal to InvokeMethod method.
 
 The following methods have some interface differences from their Siebel COM counterparts:
 
@@ -209,11 +229,23 @@ for cursor mode although (must probably FORWARD_BACKWARD would be the choice for
 =head3 set_view_mode
 
 Same thing as SetViewMode from Siebel COM API but it defined as default ALL_VIEW constant for view mode. It accepts a different value
-for it as defined by L<Siebel::COM::Constants>.
+for it as defined by L<Siebel::COM::Constants>. Also, it returns true when successfully invoked.
 
 =head2 EXPORT
 
 None by default.
+
+=head2 CONSTANTS
+
+All constants from L<Siebel::COM::Constant> are available too. This class also executes the following related functions automatically.
+
+=head3 FORWARD_ONLY
+
+Applies as default value for C<query> method.
+
+=head3 ALL_VIEW
+
+Applies as default value for C<set_view_mode> method.
 
 =head1 SEE ALSO
 

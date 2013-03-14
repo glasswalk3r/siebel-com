@@ -1,4 +1,4 @@
-Siebel-COM version 0.01
+Siebel-COM version 0.02
 =======================
 
 Siebel-COM was developed to make it easier to use Microsoft COM to access a Siebel application, 
@@ -35,12 +35,22 @@ This module requires these other modules and libraries:
    Win32::OLE >= 0.1709
    MooseX::FollowPBP >= 0.05
    namespace::autoclean >= 0.13
-   Devel::AssertOS >= 1.21
+   Siebel::AssertOS >= 0.02
+
+For testing:
+
    Test::Exception >= 0.27
    Test::Most >= 0.25
    Test::Pod >= 1.22
    Test::Pod::Coverage >= 1.08
    Test::Class >= 0.36
+
+DEVELOPERS TESTS
+
+To enable the developer tests (data_control.t and data_server.t), you must copy and setup the INI files located under the t\developer folder to
+the same folder where the test files are located.
+
+If those files are not available there, those tests will be safely skipped.
 
 COPYRIGHT AND LICENCE
 

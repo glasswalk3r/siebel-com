@@ -183,7 +183,7 @@ Returns a L<Siebel::COM::Business::Object::DataServer> object. If the Business O
 
 Additionally to the superclass operations, this method will call the C<load_objects> method automatically.
 
-=head3 get_app_defs
+=head3 get_app_def
 
 Returns a string as expected by the LoadObjects COM method from the C<ole_class>. It will validate if the C<cfg> can be read and will raise
 and exception in the case it cannot.

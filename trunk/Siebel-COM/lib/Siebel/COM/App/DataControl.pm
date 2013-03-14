@@ -290,6 +290,11 @@ Additionally by those defined by the superclass, this class have the following m
 
 Additionally by the superclass C<BUILD>, this methods automatically enables exceptions for errors during usage of Data Control.
 
+=head3 DEMOLISH
+
+This is a Moose based DEMOLISH method. Takes care of invoking C<logoff> if the object it is still connected to a Siebel Enterprise during
+object destruction.
+
 =head3 get_conn_str
 
 Returns a formatted string of the connection string used by Siebel COM Data Control to connect to a Siebel Enterprise through COM.
