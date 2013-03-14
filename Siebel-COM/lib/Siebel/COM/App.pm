@@ -116,6 +116,11 @@ The class that should be loaded by L<Win32::OLE>. Beware that the class must be 
 
 =head2 METHODS
 
+=head3 BUILD
+
+Moose based BUILD method takes care of initializing correctly subclasses of Siebel::COM::App, including changing the warnings from L<Win32::OLE>
+to force exceptions by executing C<Win32::OLE->Option( Warn => 3 )>.
+
 =head3 login
 
 Login does, uhn, login at a Siebel application. It expects does not expect any parameter and returns true with success or an exception is raised.

@@ -78,6 +78,12 @@ object that is used to really provide functionality from Siebel DLL's.
 
 None by default.
 
+=head2 METHODS
+
+=head3 get_ole
+
+Expects no parameter. Returns the L<Win32::OLE> associated with the class.
+
 =head1 CAVEATS
 
 A known issue is that this distribution only works with Microsoft Windows OS (which should be garanteed by L<Devel::AssertOS>).

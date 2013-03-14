@@ -171,6 +171,14 @@ This class also applies the role L<Siebel::COM::Exception::DataServer>.
 
 None by default.
 
+=head2 CONSTANTS
+
+All constants available to the parent class are available too for this class. The following constants are used by default:
+
+=head3 FORWARD_ONLY
+
+If not cursor type parameter is informed to the C<query> method, the value of FORWARD_ONLY is used by default.
+
 =head1 SEE ALSO
 
 =over
