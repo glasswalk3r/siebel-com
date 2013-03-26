@@ -35,7 +35,7 @@ WriteMakefile(
         'Win32::OLE'           => 0.1709,
         'MooseX::FollowPBP'    => 0.05,
         'namespace::autoclean' => 0.13,
-        'Siebel::AssertOS'     => 0.02
+        'Devel::CheckOS'       => 1.17
     },
     BUILD_REQUIRES => {
         'Test::Most'          => 0.25,
