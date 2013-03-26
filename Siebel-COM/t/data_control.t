@@ -1,10 +1,21 @@
 use feature 'say';
 use Siebel::COM::App::DataControl;
-use TryCatch;
-use Test::Most tests => 31;
-use Config::Tiny;
+use Test::Most;
+use Cwd;
+use File::Spec;
 
-my $cfg_file = 'data_control.ini';
+eval "use TryCatch";
+plan skip_all => 'TryCatch is required to run this test'
+  if $@;
+
+eval "use Config::Tiny";
+plan skip_all => 'Config::Tiny is required to run this test'
+  if $@;
+
+plan tests => 31;
+
+my $cfg_file = File::Spec->catfile('t', 'data_control.ini');
+say getcwd();
 
 SKIP: {
 
@@ -116,8 +127,8 @@ SKIP: {
     }
     catch {
 
-        like( $app->get_last_error(), qr/SBL-EXL-00119/,
-            'got an error for using an inactive field' );
+        like( $app->get_last_error(),
+            qr/SBL-EXL-00119/, 'got an error for using an inactive field' );
 
     }
 
