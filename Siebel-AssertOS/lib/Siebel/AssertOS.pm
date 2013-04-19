@@ -16,7 +16,7 @@ sub die_if_os_isnt {
 
     my $os = shift || $^O;
 
-    os_is($os) ? 1 : die_unsupported();
+    os_is($os) ? 1 : die_unsupported($os);
 
 }
 
