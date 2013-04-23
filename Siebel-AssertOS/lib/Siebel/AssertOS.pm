@@ -2,8 +2,9 @@ package Siebel::AssertOS;
 
 use 5.010;
 use feature 'switch';
+use Linux::Distribution qw(distribution_name);
 
-our $VERSION = 0.02;
+our $VERSION = 0.03;
 
 sub import {
 
@@ -14,19 +15,39 @@ sub import {
 
 sub die_if_os_isnt {
 
-    my $os = shift || $^O;
+    my %os;
 
-    os_is($os) ? 1 : die_unsupported($os);
+    $os{name} = shift || $^O;
+
+    if ( $os{name} eq 'linux' ) {
+
+        $os{distro} = distribution_name();
+
+    }
+
+    os_is( \%os ) ? 1 : die_unsupported( \%os );
 
 }
 
 sub die_unsupported {
 
-    my $os = shift;
+    # hash reference
+    my $os_ref = shift;
 
-    if ( defined($os) ) {
+    if ( defined( $os_ref->{name} ) ) {
 
-        die("OS unsupported: $os\n");
+        if ( exists( $os_ref->{distro} ) ) {
+
+            die(    'OS/distribution unsupported: '
+                  . $os_ref->{name} . ' '
+                  . $os_ref->{distro} );
+
+        }
+        else {
+
+            die( 'OS unsupported: ' . $os_ref->{name} );
+
+        }
 
     }
     else {
@@ -39,11 +60,29 @@ sub die_unsupported {
 
 sub os_is {
 
-    my $os = shift;
+    # hash reference
+    my $os_ref = shift;
 
-    given ($os) {
+    given ( $os_ref->{name} ) {
 
-        when ('linux')   { return 1 }
+        when ('linux') {
+
+            # supported Linux distribuitions
+            my %distros =
+              ( redhat => 1, suse => 1, 'oracle enterprise linux' => 1 );
+
+            if ( exists( $distros{ $os_ref->{distro} } ) ) {
+
+                return 1;
+
+            }
+            else {
+
+                return 0;
+
+            }
+
+        }
         when ('MSWin32') { return 1 }
         when ('aix')     { return 1 }
         when ('solaris') { return 1 }
@@ -77,6 +116,8 @@ This is particulary useful for automated tests.
 The list of supported OS is as defined by Oracle documentation regarding Siebel 8.2 and the list of OS from L<Devel::CheckOS> distribution. Actually, 
 Siebel::AssertOS is based on L<Devel::CheckOS>, borrowing code from it, but does not depend on it.
 
+Regarding supported Linux distributions, this module will also validate if the code is running on a supported by Siebel distribution.
+
 =head2 EXPORT
 
 None, but the functions below can be used by calling them with the complete package name (Siebel::AssertOS::<function>).
@@ -88,7 +129,6 @@ Expects an optional string parameter with the operational system name. If not gi
 It will execute C<os_is> with the operational system name, calling C<die_unsuported> if the return value from C<os_is> is false.
 
 Beware that the given parameter must follow the same provided by $^O, including case and format.
-
 C<die_if_os_isnt> is called by default when the module is imported to another package.
 
 =head3 die_unsupported
@@ -118,6 +158,10 @@ Oracle documentation about supported OS: L<http://docs.oracle.com/cd/E11886_01/V
 =item *
 
 L<Devel::CheckOS>
+
+=item *
+
+L<Linux::Distribution>
 
 =item *
 

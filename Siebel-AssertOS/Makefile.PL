@@ -2,8 +2,8 @@ use 5.010;
 use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME           => 'Siebel::AssertOS',
-    VERSION_FROM   => 'lib/Siebel/AssertOS.pm',    # finds $VERSION
-    PREREQ_PM      => {},
+    VERSION_FROM   => 'lib/Siebel/AssertOS.pm',          # finds $VERSION
+    PREREQ_PM      => { Linux::Distribution => 0.21 },
     BUILD_REQUIRES => {
         'Test::More'          => 0,
         'Test::Pod'           => 1.22,
