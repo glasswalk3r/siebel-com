@@ -145,7 +145,7 @@ Returns true or false depending on the give value. The string is restricted by t
 
 =head1 CAVEATS
 
-Beware that Siebel is supported by specific versions of OS. This module does not check versions or distributions (in the case of Linux).
+Beware that Siebel is supported by specific versions of OS. This module does not check OS version or distributions version (in the case of Linux).
 
 =head1 SEE ALSO
 
