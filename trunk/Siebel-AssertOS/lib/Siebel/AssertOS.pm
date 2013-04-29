@@ -1,10 +1,10 @@
 package Siebel::AssertOS;
 
 use 5.010;
+use Siebel::AssertOS::Linux::Distribution qw(distribution_name);
 use feature 'switch';
-use Linux::Distribution qw(distribution_name);
 
-our $VERSION = 0.03;
+our $VERSION = 0.05;
 
 sub import {
 
@@ -15,55 +15,23 @@ sub import {
 
 sub die_if_os_isnt {
 
-    my %os;
+    my $os = shift || $^O;
 
-    $os{name} = shift || $^O;
-
-    if ( $os{name} eq 'linux' ) {
-
-        $os{distro} = distribution_name();
-
-    }
-
-    os_is( \%os ) ? 1 : die_unsupported( \%os );
+    os_is($os) ? 1 : die_unsupported();
 
 }
 
 sub die_unsupported {
 
-    # hash reference
-    my $os_ref = shift;
-
-    if ( defined( $os_ref->{name} ) ) {
-
-        if ( exists( $os_ref->{distro} ) ) {
-
-            die(    'OS/distribution unsupported: '
-                  . $os_ref->{name} . ' '
-                  . $os_ref->{distro} );
-
-        }
-        else {
-
-            die( 'OS unsupported: ' . $os_ref->{name} );
-
-        }
-
-    }
-    else {
-
-        die('OS unsupported: undefined');
-
-    }
+    die 'OS unsupported';
 
 }
 
 sub os_is {
 
-    # hash reference
-    my $os_ref = shift;
+    my $os = shift;
 
-    given ( $os_ref->{name} ) {
+    given ($os) {
 
         when ('linux') {
 
@@ -71,7 +39,9 @@ sub os_is {
             my %distros =
               ( redhat => 1, suse => 1, 'oracle enterprise linux' => 1 );
 
-            if ( exists( $distros{ $os_ref->{distro} } ) ) {
+            my $distro = distribution_name();
+
+            if ( exists( $distros{ $distro } ) ) {
 
                 return 1;
 
