@@ -1,4 +1,4 @@
-Siebel-AssertOS version 0.02
+Siebel-AssertOS version 0.05
 ============================
 
 This modules will help identifying if the current OS that is running is supported by Siebel applications. If not, the module will cause an exception, 
@@ -6,7 +6,7 @@ forcing the code to stop being executed.
 
 This is particulary useful for automated tests.
 
-The list of supported OS is as defined by Oracle documentation regarding Siebel 8.2 and the list of OS from Devel::CheckOS distribution.
+The list of supported OS is as defined by Oracle documentation regarding Siebel 8.2.
 
 INSTALLATION
 
