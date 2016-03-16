@@ -1,7 +1,7 @@
 package Siebel::COM::Business::Object;
 
-use 5.010;
-use Moose;
+use Moose 2.1604;
+use namespace::autoclean 0.25;
 use Siebel::COM::Business::Component;
 
 extends 'Siebel::COM::Business';

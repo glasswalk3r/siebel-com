@@ -1,9 +1,9 @@
 package Siebel::COM::Business;
 
-use 5.010;
-use Win32::OLE;
-use Moose;
-use MooseX::FollowPBP;
+use Win32::OLE 0.17;
+use Moose 2.1604;
+use MooseX::FollowPBP 0.05;
+use namespace::autoclean 0.25;
 
 with 'Siebel::COM';
 
@@ -58,7 +58,7 @@ Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
+This software is copyright (c) 2012 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 This file is part of Siebel COM project.
 

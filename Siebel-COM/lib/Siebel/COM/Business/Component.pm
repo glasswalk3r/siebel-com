@@ -1,7 +1,7 @@
 package Siebel::COM::Business::Component;
 
-use 5.010;
-use Moose;
+use Moose 2.1604;
+use namespace::autoclean 0.25;
 use Siebel::COM::Constants;
 
 extends 'Siebel::COM::Business';
@@ -135,7 +135,6 @@ sub invoke_method {
 
 __PACKAGE__->meta->make_immutable;
 
-1;
 __END__
 
 =head1 NAME
@@ -271,7 +270,7 @@ Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
+This software is copyright (c) 2013 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 This file is part of Siebel COM project.
 

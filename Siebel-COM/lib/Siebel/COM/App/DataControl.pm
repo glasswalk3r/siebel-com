@@ -1,8 +1,7 @@
 package Siebel::COM::App::DataControl;
 
-use 5.010;
-use Moose;
-use namespace::autoclean;
+use Moose 2.1604;
+    use namespace::autoclean 0.25;
 
 extends 'Siebel::COM::App';
 
@@ -117,7 +116,7 @@ sub DEMOLISH {
 }
 
 __PACKAGE__->meta->make_immutable;
-1;
+
 __END__
 
 =head1 NAME
@@ -332,7 +331,7 @@ Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.org<E<gt>
+This software is copyright (c) 2012 of Alceu Rodrigues de Freitas Junior, E<lt>arfreitas@cpan.orgE<gt>
 
 This file is part of Siebel COM project.
 
