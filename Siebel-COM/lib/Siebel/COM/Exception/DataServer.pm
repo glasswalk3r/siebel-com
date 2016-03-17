@@ -1,7 +1,10 @@
 package Siebel::COM::Exception::DataServer;
 
+use warnings;
+use strict;
 use Win32::OLE::Variant;
 use Moose::Role 2.1604;
+# VERSION
 
 has 'return_code' => (
     is      => 'ro',

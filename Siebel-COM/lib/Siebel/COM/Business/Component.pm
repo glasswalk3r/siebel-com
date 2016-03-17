@@ -1,10 +1,12 @@
 package Siebel::COM::Business::Component;
 
+use strict;
 use Moose 2.1604;
 use namespace::autoclean 0.25;
 use Siebel::COM::Constants;
 
 extends 'Siebel::COM::Business';
+# VERSION
 
 sub activate_field {
 

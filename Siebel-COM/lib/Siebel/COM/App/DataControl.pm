@@ -1,9 +1,11 @@
 package Siebel::COM::App::DataControl;
 
+use strict;
 use Moose 2.1604;
-    use namespace::autoclean 0.25;
+use namespace::autoclean 0.25;
 
 extends 'Siebel::COM::App';
+# VERSION
 
 has host       => ( is => 'rw', isa => 'Str', required => 1 );
 has enterprise => ( is => 'rw', isa => 'Str', required => 1 );

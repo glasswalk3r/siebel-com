@@ -3,6 +3,7 @@ package Siebel::COM::Constants;
 use strict;
 use warnings;
 use Exporter 'import';
+# VERSION
 
 our @EXPORT =
   qw(FORWARD_ONLY FORWARD_BACKWARD SALES_REP_VIEW MANAGER_VIEW PERSONAL_VIEW ALL_VIEW ORG_VIEW CATALOG_VIEW SUB_ORG_VIEW GROUP_VIEW);

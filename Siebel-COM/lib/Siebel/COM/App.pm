@@ -1,5 +1,6 @@
 package Siebel::COM::App;
 
+use strict;
 use Win32::OLE 0.17;
 use Moose 2.1604;
 use MooseX::FollowPBP 0.05;
@@ -8,6 +9,8 @@ use Siebel::COM::Business::Object::DataServer;
 use namespace::autoclean 0.25;
 
 with 'Siebel::COM';
+
+# VERSION
 
 has 'user'      => ( is => 'ro', isa => 'Str', required => 1 );
 has 'password'  => ( is => 'ro', isa => 'Str', required => 1 );

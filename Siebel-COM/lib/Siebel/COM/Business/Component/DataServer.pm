@@ -1,11 +1,13 @@
 package Siebel::COM::Business::Component::DataServer;
 
+use strict;
 use Moose 2.1604;
 use namespace::autoclean 0.25;
 use Siebel::COM::Constants;
 
 extends 'Siebel::COM::Business::Component';
 with 'Siebel::COM::Exception::DataServer';
+# VERSION
 
 around 'activate_field' => sub {
 

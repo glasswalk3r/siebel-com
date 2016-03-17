@@ -3,6 +3,7 @@ package Siebel::COM;
 use warnings;
 use strict;
 use Moose::Role 2.1604;
+# VERSION
 
 has '_ole' => (
     is       => 'ro',

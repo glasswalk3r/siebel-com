@@ -1,10 +1,12 @@
 package Siebel::COM::App::DataServer;
 
+use strict;
 use Moose 2.1604;
 use namespace::autoclean 0.25;
 
 extends 'Siebel::COM::App';
 with 'Siebel::COM::Exception::DataServer';
+# VERSION
 
 has cfg         => ( is => 'rw', isa => 'Str', required => 1 );
 has data_source => ( is => 'rw', isa => 'Str', required => 1 );

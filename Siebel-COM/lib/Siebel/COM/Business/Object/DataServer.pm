@@ -1,11 +1,13 @@
 package Siebel::COM::Business::Object::DataServer;
 
+use strict;
 use Moose 2.1604;
 use namespace::autoclean 0.25;
 use Siebel::COM::Business::Component::DataServer;
 
 extends 'Siebel::COM::Business::Object';
 with 'Siebel::COM::Exception::DataServer';
+# VERSION
 
  # :TODO      :06/02/2013 12:31:48:: maybe a new parameter named classname would do in the parent class? with that, a proper around could be used
 sub get_bus_comp {

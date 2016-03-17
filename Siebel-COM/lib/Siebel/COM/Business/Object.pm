@@ -1,10 +1,12 @@
 package Siebel::COM::Business::Object;
 
+use strict;
 use Moose 2.1604;
 use namespace::autoclean 0.25;
 use Siebel::COM::Business::Component;
 
 extends 'Siebel::COM::Business';
+# VERSION
 
 sub get_bus_comp {
 
