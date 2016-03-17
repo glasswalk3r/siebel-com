@@ -1,6 +1,5 @@
 use strict;
 use warnings;
-use feature 'say';
 use Getopt::Long;
 use Pod::Usage;
 use Siebel::COM::App::DataServer;

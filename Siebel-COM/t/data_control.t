@@ -1,4 +1,3 @@
-use feature 'say';
 use Siebel::COM::App::DataControl;
 use Test::Most;
 use Cwd;
@@ -15,7 +14,6 @@ plan skip_all => 'Config::Tiny is required to run this test'
 plan tests => 31;
 
 my $cfg_file = File::Spec->catfile('t', 'data_control.ini');
-say getcwd();
 
 SKIP: {
 
@@ -78,7 +76,7 @@ SKIP: {
 
       SKIP: {
 
-            skip 'Cannot read/write data to/from without find SADMIN login', 7
+            skip 'Cannot read/write data to/from without finding SADMIN login', 7
               unless $ret;
 
             is( $bc->get_field_value('First Name'),
